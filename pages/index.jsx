@@ -1,16 +1,16 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '@/styles/Home.module.scss'
+import Link from 'next/link';
 
-export default function Home() {
+const HomePage = () => {
   return (
-    <>
-      <Head>
-        <title>Yali</title>
-        <meta name="description" content="Adopción de mascotas" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.svg" />
-      </Head>
-    </>
-  )
-}
+    <div>
+      <h1>Bienvenido a mi aplicación</h1>
+      <Link href="/login">Iniciar sesión</Link>
+    </div>
+  );
+};
+
+export default HomePage;
+
