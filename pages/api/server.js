@@ -1,5 +1,14 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import express from  'express';
+import cors from 'cors'
 
-export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
-}
+const server = express();
+
+// Middlewares
+server.use(express.json());
+server.use(cors());
+
+// Routers
+server.get('/', (req, res) => res.json("Yali´s server OK!"))
+
+
+export { server }
