@@ -8,7 +8,7 @@ server.use(express.json());
 server.use(cors());
 
 // Routers
-server.get('/', (req, res) => res.json("Yali´s server OK!"))
+server.get('/', (req, res) => res.json('Yali´s server OK!'))
 
 
 export { server }
