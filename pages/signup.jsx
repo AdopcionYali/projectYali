@@ -1,34 +1,36 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { postRequest, postVerifyCode, postSignUp } from "./api/libs/twilioReqs";
-import styles from "@/styles/Signup.module.scss";
+import { useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { postRequest, postVerifyCode, postSignUp } from '../services/twilioReqs'
+import Image from 'next/image'
+import styles from '@/styles/Signup.module.scss'
 
-import logo from "@/public/logo.svg";
-import dogFinger from "@/public/icon-dog-fingerprint.svg";
+import logo from '@/public/logo.svg'
+import dogFinger from '@/public/icon-dog-fingerprint.svg'
+
+const codeFormater = (code, limit) => code.replace(/[^\d]/g, '').slice(0, limit)
 
 export default function Signup() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [formData, setFormData] = useState(null);
+  const [isVisible, setIsVisible] = useState(true)
+  const [formData, setFormData] = useState(null)
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    watch
-  } = useForm();
+    watch,
+  } = useForm()
 
   const onSubmit = (data) => {
-    postRequest({ phoneNumber: `+52${data.phoneNumber}` });
-    setFormData(data);
-  };
+    postRequest({ phoneNumber: `+52${data.phoneNumber}` })
+    setFormData(data)
+  }
 
   const handleOnClick = () => {
-    isValid && setIsVisible(true);
-  };
+    isValid && setIsVisible(true)
+  }
 
   return (
-    <section className="vh-100 vw-100 px-lg-5 d-flex align-items-center justify-content-center">
+    <section className='vh-100 vw-100 px-lg-5 d-flex align-items-center justify-content-center'>
       <Modal
         isVisible={isVisible}
         setIsVisible={setIsVisible}
@@ -37,88 +39,88 @@ export default function Signup() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="col-10 col-md-6 col-lg-4 bg-white d-flex flex-column justify-content-between px-4 py-3 rounded-4 shadow"
+        className='col-10 col-md-6 col-lg-4 bg-white d-flex flex-column justify-content-between px-4 py-3 rounded-4 shadow'
       >
         <Image
           src={logo}
           width={70}
           height={'auto'}
-          alt="logo"
-          className="align-self-center mb-3"
+          alt='logo'
+          className='align-self-center mb-3'
         />
-        <h3 className="text-center fs-4 mb-3 w-700">Crea una cuenta</h3>
+        <h3 className='text-center fs-4 mb-3 w-700'>Crea una cuenta</h3>
 
-        <div className="form-group mb-3">
-          <label htmlFor="phoneNumber">Número de teléfono</label>
+        <div className='form-group mb-3'>
+          <label htmlFor='phoneNumber'>Número de teléfono</label>
           <input
-            type="number"
+            type='number'
             className={`form-control mt-2 ${styles.input__arrows}`}
-            id="phoneNumber"
-            placeholder="El número debe ser de 10 digitos"
-            {...register("phoneNumber", {
+            id='phoneNumber'
+            placeholder='El número debe ser de 10 digitos'
+            {...register('phoneNumber', {
               required: true,
               minLength: 10,
               maxLength: 10,
             })}
           />
-          {errors.phoneNumber?.type === "required" && (
-            <small className="text-warning">Campo obligatorio</small>
+          {errors.phoneNumber?.type === 'required' && (
+            <small className='text-warning'>Campo obligatorio</small>
           )}
-          {errors.phoneNumber?.type === "minLength" && (
-            <small className="text-warning">
+          {errors.phoneNumber?.type === 'minLength' && (
+            <small className='text-warning'>
               El número debe ser de 10 dígitos
             </small>
           )}
-          {errors.phoneNumber?.type === "maxLength" && (
-            <small className="text-warning">
+          {errors.phoneNumber?.type === 'maxLength' && (
+            <small className='text-warning'>
               El número debe ser de 10 dígitos
             </small>
           )}
         </div>
 
-        <div className="form-group mb-3">
-          <label htmlFor="password">Contraseña</label>
+        <div className='form-group mb-3'>
+          <label htmlFor='password'>Contraseña</label>
           <input
-            type="password"
-            className="form-control mt-2"
-            id="password"
-            placeholder="Contraseña de minimo 6 caracteres"
-            {...register("password", { required: true, minLength: 6 })}
+            type='password'
+            className='form-control mt-2'
+            id='password'
+            placeholder='Contraseña de minimo 6 caracteres'
+            {...register('password', { required: true, minLength: 6 })}
           />
-          {errors.password?.type === "required" && (
-            <small className="text-warning">Campo requerido</small>
+          {errors.password?.type === 'required' && (
+            <small className='text-warning'>Campo requerido</small>
           )}
-          {errors.password?.type === "minLength" && (
-            <small className="text-warning">
+          {errors.password?.type === 'minLength' && (
+            <small className='text-warning'>
               La contraseña debe ser de mínimo 6 carácteres
             </small>
           )}
         </div>
 
-        <div className="form-group mb-3">
-          <label htmlFor="confirmPassword">Confirma tu contraseña</label>
+        <div className='form-group mb-3'>
+          <label htmlFor='confirmPassword'>Confirma tu contraseña</label>
           <input
-            type="password"
-            className="form-control mt-2"
-            id="confirmPassword"
-            placeholder="Tu contraseña debe coincidir"
-            {...register("confirmPassword", {
+            type='password'
+            className='form-control mt-2'
+            id='confirmPassword'
+            placeholder='Tu contraseña debe coincidir'
+            {...register('confirmPassword', {
               required: true,
               validate: (val) => {
-                if (watch("password") !== val) {
-                  return "match";
+                if (watch('password') !== val) {
+                  return 'match'
                 }
-                return true;
-              }
+                return true
+              },
             })}
           />
-          {errors.confirmPassword?.message === "match" && (
-            <small className="text-warning">Las contraseñas no coinciden</small>
+          {errors.confirmPassword?.message === 'match' && (
+            <small className='text-warning'>Las contraseñas no coinciden</small>
           )}
         </div>
 
         <button
-          type="submit"
+          type='submit'
           className={`btn border bg-color-primary w-100 text-white ${styles.btn_nothover}`}
           onClick={isValid ? handleOnClick : handleSubmit}
         >
@@ -126,112 +128,119 @@ export default function Signup() {
         </button>
       </form>
     </section>
-  );
+  )
 }
 
 // MODAL
 function Modal({ isVisible, setIsVisible, formData }) {
-  const [code, setCode] = useState('');
-  const [isValidCode, setIsValidCode] = useState(false);
-  const { push } = useRouter();
+  const [code, setCode] = useState('')
+  const [isValidCode, setIsValidCode] = useState(false)
+  const { push } = useRouter()
+  const searchParams = useSearchParams()
+  const role = searchParams.get('role')
 
   const validateCode = async () => {
     try {
       const response = await postVerifyCode({
         phoneNumber: `+52${formData.phoneNumber}`,
         code,
-      });
+      })
 
       if (response.success) {
-        setIsValidCode(true);
+        setIsValidCode(true)
         const { phoneNumber, password } = formData
-        await postSignUp({ 
+        await postSignUp({
           phoneNumber: `+52${phoneNumber}`,
-          password
+          password,
+          role,
         })
-        push("/dashboard");
+        push('/dashboard')
       }
-
     } catch (error) {
-      setIsValidCode(false);
+      setIsValidCode(false)
     }
-  };
+  }
 
   useEffect(() => {
     if (code.length === 6) {
-      validateCode();
+      validateCode()
     } else {
-      setIsValidCode(false);
+      setIsValidCode(false)
     }
-  }, [code]);
-
-  const codeFormater = (code) => code.replace(/[^\d]/g, '').slice(0,6)
+  }, [code])
 
   const handleOnChange = (e) => {
-    let value = codeFormater(e.target.value)
+    let value = codeFormater(e.target.value, 6)
     setCode(value)
   }
 
   return (
     <div
-      className={`modal bg-black-70 d-flex align-items-center justify-content-center ${isVisible ? "d-block" : "d-none"} ${
-        styles.modal
-      }`}
+      className={`modal bg-black-70 d-flex align-items-center justify-content-center ${
+        isVisible ? 'd-block' : 'd-none'
+      } ${styles.modal}`}
     >
-      <div className="modal-dialog">
-        <div className="modal-content bg-white-2">
-          <div className="modal-header bg-color-primary py-0 text-white">
-          <Image src={dogFinger} width={'auto'} height={22} alt="logo" />
-            <h5 className="modal-title ms-2 me-4">Valida el código que llegó a tu teléfono</h5>
+      <div className='modal-dialog'>
+        <div className='modal-content bg-white-2'>
+          <div className='modal-header bg-color-primary py-0 text-white'>
+            <Image src={dogFinger} width={'auto'} height={22} alt='logo' />
+            <h5 className='modal-title ms-2 me-4'>
+              Valida el código que llegó a tu teléfono
+            </h5>
             <button
-              type="button"
-              className="btn p-0"
+              type='button'
+              className='btn p-0'
               onClick={() => {
-                setIsVisible(false);
-                setIsValidCode(false);
-                setCode('');
+                setIsVisible(false)
+                setIsValidCode(false)
+                setCode('')
               }}
             >
-              <i className="bi bi-x fs-2 text-white"></i>
+              <i className='bi bi-x fs-2 text-white'></i>
             </button>
           </div>
-          <div className="modal-body bg--white-1">
-            <div className="d-flex justify-content-between align-items-center">
-              
+          <div className='modal-body bg--white-1'>
+            <div className='d-flex justify-content-between align-items-center'>
               <input
-                type="text"
+                type='text'
                 className='text-center fs-4 form-control'
-                name="code"
+                name='code'
                 onChange={handleOnChange}
-                value={ codeFormater(code) }
+                value={codeFormater(code, 6)}
               />
 
               {isValidCode ? (
                 <i
-                  className="bi bi-check-circle fs-2 ms-3"
-                  style={{ color: "orange" }}
+                  className='bi bi-check-circle fs-2 ms-3'
+                  style={{ color: 'orange' }}
                 ></i>
               ) : (
-                <i className="bi bi-x-circle fs-2 ms-3"></i>
+                <i className='bi bi-x-circle fs-2 ms-3'></i>
               )}
             </div>
           </div>
-          <div className="modal-footer d-flex justify-content-center pt-0">
+          <div className='modal-footer d-flex justify-content-center pt-0'>
             <button
-              type="button"
-              className="btn bg-color-primary text-white w-500"
+              type='button'
+              className={`btn bg-color-primary text-white ${styles.btn_nothover}`}
               onClick={() => {
-                setIsVisible(false);
-                setIsValidCode(false);
-                setCode('');
+                setIsVisible(false)
+                setIsValidCode(false)
+                setCode('')
               }}
             >
               Cerrar
-              <Image src={dogFinger} width={'auto'} height={22} alt="logo" className='ms-2' />
+              <Image
+                src={dogFinger}
+                width={'auto'}
+                height={22}
+                alt='logo'
+                className='ms-2'
+              />
             </button>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

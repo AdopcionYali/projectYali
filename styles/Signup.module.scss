@@ -6,12 +6,10 @@
   }
 }
 
-form {
-  .btn_nothover {
-    transition: background-color 0.3s;
-    &:hover {
-      background-color: rgb(251, 112, 67, 0.8);
-    }
+.btn_nothover {
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: rgb(251, 112, 67, 0.8);
   }
 }
 
@@ -20,10 +18,10 @@ form {
 }
 
 @keyframes show-modal {
-  0% { 
+  0% {
     opacity: 0%;
   }
-  100% { 
+  100% {
     opacity: 100%;
   }
 }
