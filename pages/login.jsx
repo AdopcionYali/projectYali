@@ -1,15 +1,15 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { Container, Form, Button, Navbar, Nav, Card, Image, Col } from 'react-bootstrap';
-import styles from '../styles/login.module.css'; // Importa tus estilos CSS aquí
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { Container, Form, Button, Navbar, Nav, Card, Image, Col } from 'react-bootstrap'
+import styles from '../styles/login.module.css' // Importa tus estilos CSS aquí
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm()
 
   const onSubmit = (data) => {
    
-    console.log(data);
-  };
+    console.log(data)
+  }
 
   return (
     <div className={styles.loginContainer}>
@@ -72,7 +72,7 @@ const Login = () => {
         <p>© {new Date().getFullYear()} Tu Sitio Web. Todos los derechos reservados.</p>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
