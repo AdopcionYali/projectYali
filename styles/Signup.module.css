@@ -1,0 +1,24 @@
+.input__arrows::-webkit-outer-spin-button, .input__arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.btn_nothover {
+  transition: background-color 0.3s;
+}
+.btn_nothover:hover {
+  background-color: rgba(251, 112, 67, 0.8);
+}
+
+.modal {
+  animation: show-modal 0.3s linear 1;
+}
+
+@keyframes show-modal {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}/*# sourceMappingURL=Signup.module.css.map */
