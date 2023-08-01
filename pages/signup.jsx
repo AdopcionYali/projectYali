@@ -11,7 +11,7 @@ import dogFinger from '@/public/icon-dog-fingerprint.svg'
 const codeFormater = (code, limit) => code.replace(/[^\d]/g, '').slice(0, limit)
 
 export default function Signup() {
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   const [formData, setFormData] = useState(null)
   const {
     register,
