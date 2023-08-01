@@ -4,6 +4,7 @@ import jwt from '../libs/jwt.js';
 
 const login = async (phoneNumber, password) => {
     const user = await User.findOne({ phoneNumber })
+    console.log(user);
     const validPassword = await bcrypt.compare(password, user.password)
     
     const {_id, name} = user
