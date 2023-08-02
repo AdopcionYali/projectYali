@@ -12,6 +12,7 @@ $paragraph-font: 'Raleway', sans-serif;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  
 }
 
 body {
@@ -91,3 +92,38 @@ p, small, button, input, select {
 .color-tertiary {
   color: $tertiary-color;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// carousel
+
+.rec.rec-arrow {
+  background: #EEE !important;
+}
+
+
+
+.rec.rec-arrow:hover {
+  background: #EEE;
+}
+
+.rec.rec-arrow:disabled {
+  visibility: hidden;
+}
+
+.rec-dot_active {
+  background-color:#FB7043 !important;
+  box-shadow: 0 0 1px 3px #EEE !important;
+}
+
