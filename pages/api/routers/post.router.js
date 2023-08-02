@@ -46,4 +46,6 @@ routerPost.get('/:id', async (req, res)=>{
     }
 })
 
+
+
 export default routerPost
