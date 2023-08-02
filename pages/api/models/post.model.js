@@ -1,7 +1,7 @@
 
 import mongoose from "mongoose"
 
-const postSchema = new mongoose.Schema({
+const postSchema = mongoose.Schema({
     petName:{
         type: String,
         required: true,
