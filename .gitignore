@@ -1,3 +1,4 @@
 
 # WSL Generate from copy-paste
 *.Zone.Identifier
+node_modules
