@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import Slider from './Slider'
 import styles from '@/styles/Landing.module.scss'
 
@@ -37,9 +37,9 @@ const Landing = () => {
 
             <main className={`bg-white-1 main ${styles.main}`}>
                 <div className='d-flex justify-content-center m-5 row main-btns '>
-                    <button type='button' className={`btnOrange btn-lg m-3  col-sm-12 col-lg-3 ${styles.btnOrange}`}><img src='pet_paw.svg' className='me-2' width={30}></img>¡Adopta una mascota!</button>
+                    <button type='button' className={`btnOrange btn-lg m-3  ${styles.btn} col-sm-12 col-lg-3 ${styles.btnOrange}`}><img src='pet_paw.svg' alt='pet-paw' className='me-2' width={30}></img>¡Adopta una mascota!</button>
 
-                    <button type='button' className={`btnOutline btn-lg m-3  col-sm-12 col-lg-3 ${styles.btnOutline}`}><img src='pet_biscuit.svg' className='me-2' width={30}></img>¡Dar en adopción!</button>
+                    <button type='button' className={`btnOutline btn-lg m-3  ${styles.btn} col-sm-12 col-lg-3 ${styles.btnOutline}`}><img src='pet_biscuit.svg' alt='pet-biscuit' className='me-2' width={30}></img>¡Dar en adopción!</button>
 
                 </div>
 
@@ -54,10 +54,10 @@ const Landing = () => {
 
                     <ul className={`nav nav-underline ${styles.navUnderline}`} >
                         <li className='nav-item'>
-                            <button className={`nav-link ${styles.navLink}`} onClick={handleRescuer} ><img src='biscuit-icon.svg' width={30} className='mx-3'></img>Soy rescatista</button>
+                            <button className={`nav-link ${styles.navLink} `} onClick={handleRescuer} ><img src='biscuit-icon.svg' alt='biscuit-icon' width={30} className='mx-3'></img>Soy rescatista</button>
                         </li>
                         <li className='nav-item'>
-                            <button  className={`nav-link ${styles.navLink}`} onClick={handleAdopter}><img src='paw-icon.svg' width={30} className='mx-3'></img>¡Quiero adoptar!</button>
+                            <button className={`nav-link ${styles.navLink} `} onClick={handleAdopter}><img src='paw-icon.svg' alt='paw-icon' width={30} className='mx-3'></img>¡Quiero adoptar!</button>
                         </li>
 
                     </ul>
@@ -75,50 +75,50 @@ const Landing = () => {
                     </div>
 
                 </section>
+
+
+                <section className='mt-5 bg-white-1 '>
+
+                    <h1 className={`sectionTitle text-center display-5 ${styles.sectionTitle}`} ><img src='paws.png' className='me-2' width={50}></img>¡Encuentra tu compañero perfecto!</h1>
+                    <h3 className={`sectionSubtitle text-center  ${styles.sectionSubitle}`}>Da amor incondicional ¡Adopta una mascota!</h3>
+
+
+                    <div className='d-flex m-5 justify-content-evenly cards'>
+                        <div className='card text-bg-dark col-6 col-lg-3  '>
+                            <img src='...' className='card-img' height={200} alt='...' />
+                            <div className='card-img-overlay'>
+                                <h5 className='card-title'>¡Adopta a Micky!</h5>
+                                <p className='card-text'><small>Perro macho Alegre</small></p>
+                            </div>
+                        </div>
+                        <div className='card text-bg-dark col-6 mx-1 col-lg-3  '>
+                            <img src='...' className='card-img' height={200} alt='...' />
+                            <div className='card-img-overlay'>
+                                <h5 className='card-title'>¡Adopta a Micky!</h5>
+                                <p className='card-text'><small>Perro macho Alegre</small></p>
+                            </div>
+                        </div>
+                        <div className='card text-bg-dark  col-lg-3  '>
+                            <img src='...' className='card-img' height={200} alt='...' />
+                            <div className='card-img-overlay'>
+                                <h5 className='card-title'>¡Adopta a Micky!</h5>
+                                <p className='card-text'><small>Perro macho Alegre</small></p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <h3 className='section-subtitle ms-5'><img src='orange-paw.png' className='me-2' width={20}></img>Encuentra tu compañero</h3>
+
+
+
+                    <Slider />
+
+                </section>
+
             
 
-            <section className='mt-5 bg-white-1 '>
-
-                <h1 className={`sectionTitle text-center ${styles.sectionTitle}`} ><img src='paws.png' className='me-2' width={50}></img>¡Encuentra tu compañero perfecto!</h1>
-                <h3 className={`sectionSubtitle text-center ${styles.sectionSubitle}`}>Da amor incondicional ¡Adopta una mascota!</h3>
-
-
-                <div className='d-flex m-5 justify-content-evenly cards'>
-                    <div className='card text-bg-dark col-6 col-lg-3  '>
-                        <img src='...' className='card-img' height={200} alt='...' />
-                        <div className='card-img-overlay'>
-                            <h5 className='card-title'>¡Adopta a Micky!</h5>
-                            <p className='card-text'><small>Perro macho Alegre</small></p>
-                        </div>
-                    </div>
-                    <div className='card text-bg-dark col-6 mx-1 col-lg-3  '>
-                        <img src='...' className='card-img' height={200} alt='...' />
-                        <div className='card-img-overlay'>
-                            <h5 className='card-title'>¡Adopta a Micky!</h5>
-                            <p className='card-text'><small>Perro macho Alegre</small></p>
-                        </div>
-                    </div>
-                    <div className='card text-bg-dark  col-lg-3  '>
-                        <img src='...' className='card-img' height={200} alt='...' />
-                        <div className='card-img-overlay'>
-                            <h5 className='card-title'>¡Adopta a Micky!</h5>
-                            <p className='card-text'><small>Perro macho Alegre</small></p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <h3 className='section-subtitle ms-5'><img src='orange-paw.png' className='me-2' width={20}></img>Encuentra tu compañero</h3>
-
-                
-
-                <Slider />
-
-            </section>
-
-          
             </main>
-
 
         </>
     )

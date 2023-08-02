@@ -62,6 +62,7 @@
     padding: 10px 30px;
     font-family: Raleway;
     font-weight: 700;
+    box-shadow: 0px 9px 5px -3px rgba(157,157,157,0.48);
   }
   
   .btnOutline {
@@ -72,7 +73,16 @@
     color: #008F80;
     font-family: Raleway;
     font-weight: 700;
+    border-radius: 10.971px;
+    box-shadow: 0px 9px 5px -3px rgba(157,157,157,0.48);
+
   
+  }
+
+  .btn:active {
+    box-shadow: -1px 7px 0px -3px rgba(157,157,157,0.48);
+    transform: translateY(4px);
+
   }
   
   .main {
@@ -85,7 +95,13 @@
 
 .navUnderline {
     background: #2EC5B6;
+    color:  #058174 !important;
   }
+
+  .navUnderline :hover {
+    color:  #058174;
+  }
+
   
   .sectionTitle {
     color: #2EC5B6;
@@ -99,6 +115,10 @@
     font-family: Raleway;
     font-weight: 700;
   }
+
+ 
+
+
   
   
   .adopter {
