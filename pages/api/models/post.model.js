@@ -53,7 +53,7 @@ const postSchema = mongoose.Schema({
         required: true,
         minLength: 4,
         maxLength: 15
-    },
+    }
     /*  - See MULTER for image files 
         - See ZIP CODE API */
 })
