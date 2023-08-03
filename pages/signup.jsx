@@ -30,11 +30,8 @@ export default function Signup() {
       setError('phoneNumber', { type: '409' })
       return
     }
+    setIsVisible(true)
     setFormData(data)
-  }
-
-  const handleOnClick = () => {
-    isValid && setIsVisible(true)
   }
 
   return (
@@ -137,7 +134,7 @@ export default function Signup() {
         <button
           type='submit'
           className={`btn border bg-color-primary w-100 text-white ${styles.btn_nothover}`}
-          onClick={isValid ? handleOnClick : handleSubmit}
+          onClick={handleSubmit}
         >
           Continuar
         </button>
