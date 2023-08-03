@@ -1,10 +1,11 @@
-import bcrypt from 'bcrypt';
 
-const saltRounds = 10;
+}import bcrypt from 'bcrypt'
 
-const hash = (plainText) => bcrypt.hash(plainText, saltRounds); // encripta la str
+const saltRounds = 10
+
+const hash = (plainText) => bcrypt.hash(plainText, saltRounds) // encripta la str
 
 export default {
   ...bcrypt,
-  hash
+  hash,
 }
