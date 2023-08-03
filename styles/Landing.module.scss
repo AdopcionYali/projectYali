@@ -24,7 +24,7 @@
   
   }
   
-  .headerTitle {
+  .header_title {
     color: #263238;
     text-align: center;
     font-family: Nunito;
@@ -34,7 +34,7 @@
   
   }
   
-  .headerp {
+  .header_p {
     font-family: Raleway;
     font-size: 30px;
     font-style: normal;
@@ -43,7 +43,7 @@
     letter-spacing: 0.329px;
   }
   
-  .headerBtn {
+  .header_btn {
     background: #2EC5B6;
     border-radius: 5px;
     border: none;
@@ -54,7 +54,7 @@
 
   /* Main */
 
-.btnOrange {
+.btn_orange {
     background-color: #FB7043;
     border-radius: 10px;
     color: #FFF;
@@ -65,7 +65,7 @@
     box-shadow: 0px 9px 5px -3px rgba(157,157,157,0.48);
   }
   
-  .btnOutline {
+  .btn_outline {
     border-radius: 10px;
     border: 2.743px solid #2EC5B6;
     background-color: #FFF;
@@ -93,24 +93,24 @@
 /* Tab */
 
 
-.navUnderline {
+.nav_underline {
     background: #2EC5B6;
     color:  #058174 !important;
   }
 
-  .navUnderline :hover {
+  .nav_underline :hover {
     color:  #058174;
   }
 
   
-  .sectionTitle {
+  .section_title {
     color: #2EC5B6;
     font-family: Nunito;
     font-weight: 700;
     text-align: center;
   }
   
-  .navLink {
+  .nav_link {
     color: #EEE;
     font-family: Raleway;
     font-weight: 700;
@@ -165,20 +165,16 @@
   
   /* Cards */
   
-  .sectionTitle {
+  .section_title {
     font-family: Nunito;
     font-weight: 900;
   
   }
   
-  .sectionSubtitle {
+  .section_subtitle {
     font-family: Raleway;
     font-weight: 500;
   
   }
   
-  @media (max-width: 700px) {
-    .cards> :nth-child(n+3) {
-      display: none;
-    }
-  }
+  
