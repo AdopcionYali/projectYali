@@ -40,7 +40,7 @@ const Landing = () => {
                 <div className='d-flex justify-content-center m-5 row main-btns '>
                     <button type='button' className={`btn_orange btn-lg m-3  ${styles.btn} col-sm-12 col-lg-3 ${styles.btn_orange}`}><img src='pet_paw.svg' alt='pet-paw' className='me-2' width={30}></img>¡Adopta una mascota!</button>
 
-                    <button type='button' className={`btn_outline btn-lg m-3  ${styles.btn} col-sm-12 col-lg-3 ${styles.btn_outline}`}><img src='pet_biscuit.svg' alt='pet-biscuit' className='me-2' width={30}></img>¡Dar en adopción!</button>
+                    <button  className={`btn_outline btn-lg m-3  ${styles.btn} col-sm-12 col-lg-3 ${styles.btn_outline}`}><img src='pet_biscuit.svg' alt='pet-biscuit' className='me-2' width={30}></img><a href='/signup?role=rescatist'>¡Dar en adopción!</a></button>
 
                 </div>
 
@@ -54,11 +54,11 @@ const Landing = () => {
                     </div>
 
                     <ul className={`nav nav-underline ${styles.nav_underline}`} >
-                        <li className='nav-item'>
-                            <button className={`nav-link ${styles.nav_link} `} onClick={handleRescuer} ><img src='biscuit-icon.svg' alt='biscuit-icon' width={30} className='mx-3'></img>Soy rescatista</button>
+                        <li className='nav-item'> 
+                            <button className={rescuer? `nav-link ${styles.active} ${styles.nav_link} ` : `nav-link ${styles.nav_link} ` } onClick={handleRescuer} ><img src='biscuit-icon.svg' alt='biscuit-icon' width={30} className='mx-3'></img>Soy rescatista</button>
                         </li>
                         <li className='nav-item'>
-                            <button className={`nav-link ${styles.nav_link} `} onClick={handleAdopter}><img src='paw-icon.svg' alt='paw-icon' width={30} className='mx-3'></img>¡Quiero adoptar!</button>
+                            <button className={!rescuer? `nav-link ${styles.active} ${styles.nav_link} ` : `nav-link ${styles.nav_link} ` } onClick={handleAdopter}><img src='paw-icon.svg' alt='paw-icon' width={30} className='mx-3'></img>¡Quiero adoptar!</button>
                         </li>
 
                     </ul>
@@ -80,8 +80,8 @@ const Landing = () => {
 
                 <section className='mt-5 bg-white-1 '>
 
-                    <h1 className={`section_title text-center display-5 ${styles.section_title}`} ><img src='paws.png' className='me-2' width={50}></img>¡Encuentra tu compañero perfecto!</h1>
-                    <h3 className={`section_subtitle text-center  ${styles.section_subitle}`}>Da amor incondicional ¡Adopta una mascota!</h3>
+                    <h1 className={`section_title text-center display-5 ${styles.section_title_2}`} ><img src='paws.png' className='me-2' width={50}></img>¡Encuentra tu compañero perfecto!</h1>
+                    <h4 className={`section_subtitle text-center  ${styles.section_subitle}`}>Da amor incondicional ¡Adopta una mascota!</h4>
 
 
                    
