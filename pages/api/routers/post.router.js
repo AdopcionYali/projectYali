@@ -1,5 +1,5 @@
-import express from 'express';
-import { createPost, getPostDetail, getPosts } from '../usecases/post.usecases.js';
+import express, { response } from 'express';
+import { createPost, deletePost, getPostDetail, getPosts, updatePost } from '../usecases/post.usecases.js';
 
 const routerPost = express.Router();
 
@@ -37,9 +37,7 @@ routerPost.get('/', async (req, res) =>{
         const allPosts = await getPosts()
         res.json({
             success: true,
-            data: {
-                data: allPosts
-            }
+            data: allPosts
         })
     } catch (error) {
         res.json({
@@ -67,5 +65,41 @@ routerPost.get('/:id', async (req, res) => {
     });
   }
 });
+
+routerPost.patch('/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const newData = req.body
+        const modifiedPost = updatePost(id, newData)
+        res.json({
+            success: true,
+            message: 'post updated successfully!',
+            data: modifiedPost
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })
+        
+    }
+})
+
+routerPost.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const deletedPost = deletePost(id)
+        res.json({
+            success: true,
+            message: 'post deleted successfully!',
+            data: deletedPost
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })        
+    }
+})
 
 export default routerPost;

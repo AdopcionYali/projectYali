@@ -12,4 +12,11 @@ const getPosts = async () => {
     return Post.find().populate({ path: 'post_id', select: 'name' })
 }
 
-export { createPost, getPostDetail, getPosts };
+const updatePost = async (id, data) => {
+    return Post.findByIdAndUpdate(id, data)
+}
+
+const deletePost = async (id) => {
+    return Post.findByIdAndRemove(id)
+}
+export { createPost, getPostDetail, getPosts, updatePost, deletePost };
