@@ -1,6 +1,14 @@
 
 import mongoose, { Schema } from "mongoose"
 
+const imageSchema = mongoose.Schema({
+    image: {
+        data: Buffer,
+        contentType: String
+    }
+});
+const ImageModel = mongoose.model('image', imageSchema)
+
 const postSchema = mongoose.Schema({
     petName:{
         type: String,
@@ -54,6 +62,8 @@ const postSchema = mongoose.Schema({
         minLength: 4,
         maxLength: 15
     },
+    image:{ type:Schema.Types.String, ref: 'image' },
+
     post_id: { type: Schema.Types.ObjectId, ref: 'post' }
     /*  - See MULTER for image files 
         - See ZIP CODE API */
@@ -61,4 +71,4 @@ const postSchema = mongoose.Schema({
 
 const Post = mongoose.model('post', postSchema)
 
-export { Post }
+export { Post, ImageModel }
