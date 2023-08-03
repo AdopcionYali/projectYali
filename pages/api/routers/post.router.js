@@ -1,9 +1,9 @@
-import express from "express";
-import { createPost, getPostDetail } from "../usecases/post.usecases.js";
+import express from 'express';
+import { createPost, getPostDetail, getPosts } from '../usecases/post.usecases.js';
 
 const routerPost = express.Router();
 
-routerPost.post("/", async (req, res) => {
+routerPost.post('/', async (req, res) => {
   try {
     const {
       petName,
@@ -32,7 +32,25 @@ routerPost.post("/", async (req, res) => {
   }
 });
 
-routerPost.get("/:id", async (req, res) => {
+routerPost.get('/', async (req, res) =>{
+    try {
+        const allPosts = await getPosts()
+        res.json({
+            success: true,
+            data: {
+                data: allPosts
+            }
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })
+        
+    }
+})
+
+routerPost.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const postDetail = await getPostDetail(id);
@@ -45,7 +63,7 @@ routerPost.get("/:id", async (req, res) => {
   } catch (error) {
     res.json({
       success: false,
-      message: "Error at Get Post Detail",
+      message: error.message,
     });
   }
 });
