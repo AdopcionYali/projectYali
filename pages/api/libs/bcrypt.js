@@ -1,5 +1,5 @@
 
-}import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
 
 const saltRounds = 10
 
