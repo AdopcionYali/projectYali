@@ -1,79 +1,105 @@
-import express from 'express'
-import { createPost, getPostDetail } from '../usecases/post.usecases.js'
-import multer from 'multer'
-import path from 'path'
+import express from 'express';
+import { createPost, deletePost, getPostDetail, getPosts, updatePost } from '../usecases/post.usecases.js';
 
-const routerPost = express.Router()
+const routerPost = express.Router();
 
-
-// multer middleware
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-      cb(null, path.join(__dirname, './images/'))
-  },
-  filename: function (req, file, cb) {
-          cb(null, file.fieldname + '-' + Date.now() + file.originalname.match(/\..*$/)[0])
+routerPost.post('/', async (req, res) => {
+  try {
+    const {
+      petName,
+      petSpecies,
+      petSex,
+      petAge,
+      actLevel,
+      vacc,
+      background,
+      isNeutered,
+      felvPositive,
+      petLocation,
+    } = req.body;
+    const postCreated = await createPost(req.body);
+    res.json({
+      success: true,
+      data: {
+        data: postCreated,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      message: error.message,
+    });
   }
 });
-const multi_upload = multer({
-  storage,
-  limits: { fileSize: 1 * 1024 * 1024 }, // 1MB
-  fileFilter: (req, file, cb) => {
-      if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
-          cb(null, true);
-      } else {
-          cb(null, false);
-          const err = new Error('Only .png, .jpg and .jpeg format allowed!')
-          err.name = 'ExtensionError'
-          return cb(err);
-      }
-  },
-}).array('uploadedImages', 5)
 
-routerPost.post('/', (req, res)=>{
-
-try {
-    const newPost = req.body
-    
-    const postCreated = createPost(newPost)
-    res.json({
-        success: true,
-        data:{
-            data: postCreated
-        }
-    })
-} catch (error) {
-    res.status(404)
-    .json({
-        success: false,
-        message: 'Error at Create Post'
-    })
-    
-}
-})
-
-routerPost.get('/:id', async (req, res)=>{
-
+routerPost.get('/', async (req, res) =>{
     try {
-        const { id } = req.params
-        const postDetail = await getPostDetail(id)
-
+        const allPosts = await getPosts()
         res.json({
             success: true,
-            data:{
-                data:postDetail
-            }
+            data: allPosts
         })
     } catch (error) {
         res.json({
             success: false,
-            message: 'Error at Get Post Detail'
+            message: error.message
         })
         
     }
 })
 
+routerPost.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const postDetail = await getPostDetail(id);
+    res.json({
+      success: true,
+      data: {
+        data: postDetail,
+      },
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
 
+routerPost.patch('/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const newData = req.body
+        const modifiedPost = updatePost(id, newData)
+        res.json({
+            success: true,
+            message: 'post updated successfully!',
+            data: modifiedPost
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })
+        
+    }
+})
 
-export default routerPost
+routerPost.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const deletedPost = deletePost(id)
+        res.json({
+            success: true,
+            message: 'post deleted successfully!',
+            data: deletedPost
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })        
+    }
+})
+
+export default routerPost;
