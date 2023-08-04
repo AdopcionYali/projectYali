@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .aside {
+    padding: 20px;
+  }
+  
+  .filterGroup {
+    margin-bottom: 20px;
+  }
+  
+  .main {
+    padding: 20px;
+  }
+  
+ 
+  @media (min-width: 768px) {
+    .container {
+      flex-direction: row;
+    }
+  
+    .aside {
+      flex-basis: 25%;
+    }
+  
+    .main {
+      flex-basis: 75%;
+    }
+  }
+  
