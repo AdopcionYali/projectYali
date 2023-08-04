@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -9,7 +9,7 @@ import Image from "next/image";
 
 const Filters = () => {
   const [selectedPet, setSelectedPet] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedSex, setSelectedSex] = useState("");
   const [selectedAge, setSelectedAge] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -19,34 +19,31 @@ const Filters = () => {
     useState("");
   const [selectedSterilizationStatus, setSelectedSterilizationStatus] =
     useState("");
+  const [selectedLeucemia, setSelectedLeucemia] = useState("");
   const [isLeucemiaVisible, setIsLeucemiaVisible] = useState(false);
   const [pets, setPets] = useState([]);
 
-  useEffect(() => {
-    const getPets = async () => {
-      try {
-        //Solicitud a MongoDB
-        const response = await axios.get("https://api-mongo", {
-          params: {
-            pet: selectedPet,
-            sex: selectedSex,
-            age: selectedAge,
-            size: selectedSize,
-            energy: selectedEnergyLevel,
-            personality: selectedPersonality,
-            vaccination: selectedVaccinationStatus,
-            sterilization: selectedSterilizationStatus,
-            leucemia: isLeucemiaVisible ? "libre" : null,
-            location: selectedLocation,
-          },
-        });
-        setPets(response.data);
-      } catch (error) {
-        console.error("Error al obtener los detalles de:", error);
-      }
-    };
-  
-  getPets();
+  const getPets = useCallback(async () => {
+    try {
+      //Solicitud a MongoDB
+      const response = await axios.get("https://api-mongo", {
+        params: {
+          petSpecies: selectedPet,
+          petSex: selectedSex,
+          petAge: selectedAge,
+          petSize: selectedSize,
+          petEnergy: selectedEnergyLevel,
+          petPersonality: selectedPersonality,
+          petVaccination: selectedVaccinationStatus,
+          petSterilization: selectedSterilizationStatus,
+          leucemia: isLeucemiaVisible ? "libre" : null,
+          petLocation: selectedLocation,
+        },
+      });
+      setPets(response.data);
+    } catch (error) {
+      console.error("Error al obtener los detalles de:", error);
+    }
   }, [
     selectedPet,
     selectedLocation,
@@ -59,6 +56,10 @@ const Filters = () => {
     selectedSterilizationStatus,
     isLeucemiaVisible,
   ]);
+
+  useEffect(() => {
+    getPets();
+  }, [getPets]);
 
   const handleFilterChange = (filter, value) => {
     switch (filter) {
@@ -90,6 +91,10 @@ const Filters = () => {
       default:
         break;
     }
+  };
+
+  const applyFilters = () => {
+    getPets();
   };
 
   return (
@@ -186,9 +191,9 @@ const Filters = () => {
               value={selectedEnergyLevel}
               onChange={(e) => setSelectedEnergyLevel(e.target.value)}
             >
-              <option value='activo'>Activo</option>
-              <option value='moderado'>Moderado</option>
-              <option value='bajo'>Bajo</option>
+              <option value='alta'>Alta</option>
+              <option value='moderada'>Moderada</option>
+              <option value='baja'>Baja</option>
             </select>
           </div>
           <div className={`${styles.filterGroup}`}>
@@ -235,6 +240,11 @@ const Filters = () => {
               <option value='esterilizado'>Esterilizado</option>
               <option value='sin-esterilizar'>Sin esterilizar</option>
             </select>
+          </div>
+          <div className={styles.filterGroup}>
+            <button onClick={applyFilters} className={styles.applyBtn}>
+              BUSCAR
+            </button>
           </div>
         </aside>
 
