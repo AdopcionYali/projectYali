@@ -24,7 +24,7 @@
   
   }
   
-  .headerTitle {
+  .header_title {
     color: #263238;
     text-align: center;
     font-family: Nunito;
@@ -34,7 +34,7 @@
   
   }
   
-  .headerp {
+  .header_p {
     font-family: Raleway;
     font-size: 30px;
     font-style: normal;
@@ -43,7 +43,7 @@
     letter-spacing: 0.329px;
   }
   
-  .headerBtn {
+  .header_btn {
     background: #2EC5B6;
     border-radius: 5px;
     border: none;
@@ -54,7 +54,7 @@
 
   /* Main */
 
-.btnOrange {
+.btn_orange {
     background-color: #FB7043;
     border-radius: 10px;
     color: #FFF;
@@ -65,7 +65,7 @@
     box-shadow: 0px 9px 5px -3px rgba(157,157,157,0.48);
   }
   
-  .btnOutline {
+  .btn_outline {
     border-radius: 10px;
     border: 2.743px solid #2EC5B6;
     background-color: #FFF;
@@ -75,6 +75,11 @@
     font-weight: 700;
     border-radius: 10.971px;
     box-shadow: 0px 9px 5px -3px rgba(157,157,157,0.48);
+
+    a {
+      text-decoration: none;
+      color: #2EC5B6 !important;
+    }
 
   
   }
@@ -93,33 +98,38 @@
 /* Tab */
 
 
-.navUnderline {
+.nav_underline {
     background: #2EC5B6;
     color:  #058174 !important;
   }
 
-  .navUnderline :hover {
-    color:  #058174;
+  .nav_underline :hover {
+    color:  #058174 !important;
   }
 
   
-  .sectionTitle {
+  .section_title {
     color: #2EC5B6;
     font-family: Nunito;
     font-weight: 700;
     text-align: center;
   }
   
-  .navLink {
-    color: #EEE;
+  .nav_link {
+    color:  #EEEEEE ;
     font-family: Raleway;
     font-weight: 700;
   }
 
- 
-
-
+  .nav_link:visited {
+    color:  #EEEEEE ;
+  }
   
+ 
+  .active {
+    color:  #058174 !important;
+  }
+ 
   
   .adopter {
     background-position: center;
@@ -165,13 +175,13 @@
   
   /* Cards */
   
-  .sectionTitle {
+  .section_title_2 {
     font-family: Nunito;
     font-weight: 900;
   
   }
   
-  .sectionSubtitle {
+  .section_subtitle {
     font-family: Raleway;
     font-weight: 500;
   
