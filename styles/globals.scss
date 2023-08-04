@@ -19,7 +19,6 @@ body {
   width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;
-  display: flex;
   flex-direction: column;
   align-items: center;
   &::-webkit-scrollbar {
@@ -96,34 +95,4 @@ p, small, button, input, select {
 
 
 
-
-
-
-
-
-
-
-
-
-
-// carousel
-
-.rec.rec-arrow {
-  background: #EEE !important;
-}
-
-
-
-.rec.rec-arrow:hover {
-  background: #EEE;
-}
-
-.rec.rec-arrow:disabled {
-  visibility: hidden;
-}
-
-.rec-dot_active {
-  background-color:#FB7043 !important;
-  box-shadow: 0 0 1px 3px #EEE !important;
-}
 

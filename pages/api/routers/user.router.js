@@ -10,7 +10,6 @@ routerUser.post('/twilio/sendcode', async (req, res) => {
   try {
     const { phoneNumber } = req.body
     const userAlreadyExist = await phoneNumberExist(phoneNumber)
-    console.log(userAlreadyExist);
     if (userAlreadyExist) throw new CustomError(`El número ya está registrado`, 409)
     sendCode(phoneNumber)
 
