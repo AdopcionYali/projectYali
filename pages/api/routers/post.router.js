@@ -1,24 +1,10 @@
 import express from 'express';
 import { createPost, deletePost, getPostDetail, getPosts, updatePost } from '../usecases/post.usecases.js';
-import { Multer } from 'multer';
-
 
 const routerPost = express.Router();
 
 routerPost.post('/', async (req, res) => {
   try {
-    const storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-          cb(null, "uploads");
-        },
-        filename: function (req, file, cb) {
-          cb(
-            null,
-            file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-          );
-        },
-      });
-      const upload = multer({ storage: storage });
     const {
       petName,
       petSpecies,
