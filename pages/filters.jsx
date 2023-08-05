@@ -63,29 +63,29 @@ const Filters = () => {
 
   const handleFilterChange = (filter, value) => {
     switch (filter) {
-      case "pet":
+      case "petSpecies":
         setSelectedPet(value);
         setIsLeucemiaVisible(value === "gato");
         break;
-      case "sex":
+      case "petSex":
         setSelectedSex(value);
         break;
-      case "age":
+      case "petAge":
         setSelectedAge(value);
         break;
-      case "size":
+      case "petSize":
         setSelectedSize(value);
         break;
-      case "energy":
+      case "petEnergy":
         setSelectedEnergyLevel(value);
         break;
-      case "personality":
+      case "petPersonality":
         setSelectedPersonality(value);
         break;
-      case "vaccination":
+      case "petVaccination":
         setSelectedVaccinationStatus(value);
         break;
-      case "sterilization":
+      case "petSterilization":
         setSelectedSterilizationStatus(value);
         break;
       default:
@@ -105,45 +105,27 @@ const Filters = () => {
       <Navbar />
       <div className='container'>
         <aside className={`col-lg-3 ${styles.aside}`}>
-          <div className={`${styles.filterGroup}`}>
-            <h3>BUSCO</h3>
-            <label className='d-block'>
+          <div className={`${styles.filter_group}`}>
+            <h3 className={`${styles.h3}`}>BUSCO:</h3>
+            <div className={`form-check form-check-inline ${styles.radio_block}`}>
               <input
                 type='radio'
                 value='perro'
                 checked={selectedPet === "perro"}
-                onChange={() => handleFilterChange("pet", "perro")}
+                onChange={() => handleFilterChange("petSpecies", "perro")}
               />
-              Perro
-            </label>
-            <label className='d-block'>
+              Perro</div>
+            <div className={`form-check form-check-inline ${styles.radio_block}`}>
               <input
                 type='radio'
                 value='gato'
                 checked={selectedPet === "gato"}
-                onChange={() => handleFilterChange("pet", "gato")}
+                onChange={() => handleFilterChange("petSpecies", "gato")}
               />
               Gato
-            </label>
-          </div>
-          {isLeucemiaVisible && (
-            <div className={`${styles.filterGroup}`}>
-              <label htmlFor='leucemia'>¿Libre de leucemia felina?</label>
-              <select
-                id='leucemia'
-                className='form-select'
-                value={isLeucemiaVisible}
-                onChange={(e) => setSelectedLeucemia(e.target.value)}
-              >
-                <option value='libre'>Libre de leucemia</option>
-                <option value='presenta-leucemia'>Presenta leucemia</option>
-                <option value='sin-prueba'>
-                  No se le ha realizado la prueba
-                </option>
-              </select>
             </div>
-          )}
-          <div className={`${styles.filterGroup}`}>
+          </div>
+          <div className={`${styles.filter_group}`}>
             <label htmlFor='sexo'>Sexo</label>
             <select
               id='sexo'
@@ -155,7 +137,7 @@ const Filters = () => {
               <option value='macho'>Macho</option>
             </select>
           </div>
-          <div className={`${styles.filterGroup}`}>
+          <div className={`${styles.filter_group}`}>
             <label htmlFor='edad'>Edad</label>
             <select
               id='edad'
@@ -169,7 +151,7 @@ const Filters = () => {
               <option value='adulto-mayor'>Adulto Mayor</option>
             </select>
           </div>
-          <div className={`${styles.filterGroup}`}>
+          <div className={`${styles.filter_group}`}>
             <label htmlFor='tamano'>Tamaño</label>
             <select
               id='tamano'
@@ -183,7 +165,7 @@ const Filters = () => {
               <option value='gigante'>Gigante</option>
             </select>
           </div>
-          <div className={`${styles.filterGroup}`}>
+          <div className={`${styles.filter_group}`}>
             <label htmlFor='nivel-actividad'>Nivel de Actividad</label>
             <select
               id='nivel-actividad'
@@ -196,7 +178,7 @@ const Filters = () => {
               <option value='baja'>Baja</option>
             </select>
           </div>
-          <div className={`${styles.filterGroup}`}>
+          <div className={`${styles.filter_group}`}>
             <label htmlFor='personalidad'>Personalidad</label>
             <select
               id='personalidad'
@@ -213,7 +195,7 @@ const Filters = () => {
               <option value='independiente'>Independiente</option>
             </select>
           </div>
-          <div className={`${styles.filterGroup}`}>
+          <div className={`${styles.filter_group}`}>
             <label htmlFor='vacunacion'>Vacunación</label>
             <select
               id='vacunacion'
@@ -229,7 +211,7 @@ const Filters = () => {
               <option value='vacunas-anuales'>Vacunas anuales</option>
             </select>
           </div>
-          <div className={`${styles.filterGroup}`}>
+          <div className={`${styles.filter_group}`}>
             <label htmlFor='esterilizacion'>Esterilización</label>
             <select
               id='esterilizacion'
@@ -241,8 +223,25 @@ const Filters = () => {
               <option value='sin-esterilizar'>Sin esterilizar</option>
             </select>
           </div>
-          <div className={styles.filterGroup}>
-            <button onClick={applyFilters} className={styles.applyBtn}>
+          {isLeucemiaVisible && (
+            <div className={`${styles.filter_group}`}>
+              <label htmlFor='leucemia'>¿Libre de leucemia felina?</label>
+              <select
+                id='leucemia'
+                className='form-select'
+                value={isLeucemiaVisible}
+                onChange={(e) => setSelectedLeucemia(e.target.value)}
+              >
+                <option value='libre'>Libre de leucemia</option>
+                <option value='presenta-leucemia'>Presenta leucemia</option>
+                <option value='sin-prueba'>
+                  No se le ha realizado la prueba
+                </option>
+              </select>
+            </div>
+          )}
+          <div className={styles.filter_group}>
+            <button onClick={applyFilters} className={`btn_orange btn-lg ${styles.apply_btn}`}>
               BUSCAR
             </button>
           </div>
