@@ -11,6 +11,7 @@
     "server": "nodemon ./pages/api/index.js"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "bootstrap": "^5.3.1",
     "bootstrap-icons": "^1.10.5",

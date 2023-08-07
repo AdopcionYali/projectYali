@@ -1,89 +1,83 @@
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Container, Form, Button, Navbar, Nav, Card, Image, Col } from 'react-bootstrap'
-import { useRouter } from 'next/router'
-import styles from '../styles/login.module.css'
+import axios from 'axios'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import '../styles/Home.module.css'
+
 
 const Login = () => {
-  const { register, handleSubmit } = useForm()
-  const [error, setError] = useState(null)
-  const router = useRouter()
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [password, setPassword] = useState('')
 
-  const onSubmit = async (data) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
     try {
-      if (response.ok) {
-        const { token } = await response.json()
-        console.log('Token recibido:', token)
-
-        router.push('/signup')
-      } else {
-        setError('Credenciales inválidas')
-      }
+      const response = await axios.post('http://localhost:8080/login', {
+        phoneNumber,
+        password,
+      })
+      const token = response.data.token
+      localStorage.setItem('token', token)
+      window.location.href = '/dashboard'
     } catch (error) {
-      console.error('Error en la solicitud:', error)
-      setError('Hubo un problema al iniciar sesión. Inténtalo de nuevo más tarde.')
+      console.error('Error al iniciar sesión:', error.response.data.message)
     }
   }
 
   return (
-    <div className={styles.loginContainer}>
-      <Navbar bg='transparent' expand='lg'>
-        <Container>
-          <Navbar.Brand href='/'>
-            {}
-            <img src='/logo.svg' alt='Logo' height='30' />
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse id='basic-navbar-nav' className='justify-content-end'>
-            <Nav>
-              <Nav.Link href='/login'>Iniciar sesión</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+    <div className="bg-light min-vh-100">
+      <nav className="navbar navbar-expand-lg navbar-transparent">
+        <div className="container">
+          <a className="navbar-brand" href="/">
+            <img src="/logo.svg" alt="Logo" height="30" />
+          </a>
+        </div>
+      </nav>
 
-      <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: 'calc(100vh - 72px)' }}>
-        <Col>
-          <Card className={styles.loginCard}>
-            <Card.Body>
-              <h3 className='mb-4'>Iniciar sesión</h3>
-              <Form onSubmit={handleSubmit(onSubmit)}>
-              {error && <div className='text-danger mb-3'>{error}</div>} 
-                <Form.Group controlId='email'>
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type='text'
-                    placeholder='Ingrese su email'
-                    {...register('email', { required: true })}
-                    className={styles.input}
-                  />
-                </Form.Group>
+      <div className="bg-light min-vh-100 d-flex align-items-center justify-content-center">
+      {/* Centra todo el contenido verticalmente y horizontalmente */}
+      <div className="col-md-4">
+        <div className="card p-4" style={{ borderRadius: '8px' }}>
+          <h2 className="mb-4 text-center">Inicio de Sesión</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="phoneNumber" className="form-label">
+                Número de teléfono:
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </div>
 
-                <Form.Group controlId='password'>
-                  <Form.Label>Contraseña</Form.Label>
-                  <Form.Control
-                    type='password'
-                    placeholder='Ingrese su contraseña'
-                    {...register('password', { required: true })}
-                    className={styles.input}
-                  />
-                </Form.Group>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Contraseña:
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-                <Button variant='primary' type='submit' className={`${styles.loginButton} w-100 mb-3`}>
-                  Iniciar sesión
-                </Button>
+            <button type="submit" className="btn btn-primary w-100">
+              Iniciar Sesión
+            </button>
+            <button type="button" className="btn btn-secondary w-100 mt-3">
+              Iniciar sesión con Google
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
 
-                <Button variant='light' type='button' className={`${styles.loginButton} w-100`}>
-                  <Image src='/google-icon.png' alt='Google' height='18' className='me-2' />
-                  Iniciar sesión con Google
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Container>
-
-      <footer className='mt-4 text-center'>
+      <footer className="mt-4 text-center">
         <p>© {new Date().getFullYear()} Tu Sitio Web. Todos los derechos reservados.</p>
       </footer>
     </div>
