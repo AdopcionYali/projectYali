@@ -1,4 +1,4 @@
-import { CustomError } from '@/pages/api/libs/errorCustom'
+import { CustomError } from '@/libs/errorCustom'
 
 const postRequest = async (phoneNumber) => {
   try {
