@@ -1,1 +1,1 @@
-export const BASE_URl_API = 'https://backend-yali.vercel.app'
+export const BASE_URl_API = 'http://localhost:8080'
