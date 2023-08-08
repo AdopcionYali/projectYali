@@ -13,6 +13,9 @@ const petSchema = new mongoose.Schema({
   petSterilization: { type: String, required: true },
 });
 
-const Pet = mongoose.model('pet', petSchema);
+const Pet = mongoose.model('Pet', petSchema);
 
-export { Pet }
+export async function getPetsByFilters(filters){
+  const pets = await Pet.find(filters);
+  return pets;
+}
