@@ -1,13 +1,15 @@
 import express from 'express';
 import { createPost, deletePost, getPostDetail, getPosts, updatePost } from '../usecases/post.usecases.js';
-import uploadPetImages from '../middlewares/multer.middleware.js';
+import upload from '../middlewares/multer.middleware.js';
 
 const routerPost = express.Router();
 
-routerPost.post('/pet-images', uploadPetImages(), (req, res) => {
-  console.log(req.files)
-  res.send('ok')
+
+routerPost.post('/uploads', upload('pet-profile-images').array('pet-images'), (req, res, next) => {
+ console.log(req.files)
+  res.send('Imagen enviada exitosamente.')
 })
+
 
 routerPost.post('/', async (req, res) => {
   try {

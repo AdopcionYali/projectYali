@@ -6,7 +6,7 @@ export default function Post() {
                             <div className='col-10'>
                                 Aqui va la solicitud a llenar
                               
-                              <form method='POST' action='/upload' enctype='multipart/form-data'>
+                              <form method='POST' action='/postsubmit' encType='multipart/form-data'>
                                 Aqui se sube la imagen
                                 <input type='file' name='pet-images' />
                                 <input type='submit'/>
