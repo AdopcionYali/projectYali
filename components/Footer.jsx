@@ -1,6 +1,10 @@
 import styles from '@/styles/Footer.module.scss'
+import { useRouter } from 'next/navigation'
 
 const Footer = () => {
+
+  const { push } = useRouter()
+
   return (
     <footer className={`mt-4 footer mb-4  ${styles.footer}`}>
 
@@ -21,7 +25,7 @@ const Footer = () => {
         <ul className={`${styles.list}   me-5 d-flex`}>
           <li><a className={`${styles.a} a`} href='#'>Inicio</a></li>
           <li><a className={`${styles.a} mx-4  a`} href='#'>Adopta</a></li>
-          <li><a className={`${styles.a} a`} href='/signup?role=rescatist'>Dar en adopción</a></li>
+          <li><a className={`${styles.a} a`} onClick={()=>push('/signup?role=rescatist')}>Dar en adopción</a></li>
         </ul>
         
         
