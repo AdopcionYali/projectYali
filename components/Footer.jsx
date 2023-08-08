@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styles from '@/styles/Footer.module.scss'
 
 const Footer = () => {
@@ -19,9 +20,9 @@ const Footer = () => {
         <img className={`${styles.logo} ms-5`} src='logo-yali.svg' alt='logo-yali' width={100}></img>
        
         <ul className={`${styles.list}   me-5 d-flex`}>
-          <li><a className={`${styles.a} a`} href='#'>Inicio</a></li>
-          <li><a className={`${styles.a} mx-4  a`} href='#'>Adopta</a></li>
-          <li><a className={`${styles.a} a`} href='/signup?role=rescatist'>Dar en adopción</a></li>
+          <li><Link className={`${styles.a} a`} href='#'>Inicio</Link></li>
+          <li><Link className={`${styles.a} mx-4  a`} href='#'>Adopta</Link></li>
+          <li><Link className={`${styles.a} a`} href='/signup?role=rescatist'>Dar en adopción</Link></li>
         </ul>
         
         
@@ -33,8 +34,8 @@ const Footer = () => {
         <div className=' d-flex justify-content-around'>
 
         <small className='cols-sm-12 col-6 '>Copyright © Yali 2023. Todos los derechos reservados</small>
-        <small><a className={`${styles.a} a me-3 col-sm-12 col-lg-3 `} href='#'>Aviso de Privacidad</a></small>
-        <small><a className={`${styles.a} a col-sm-12 col-lg-3`} href='#'> Términos y Condiciones</a></small>
+        <small><Link className={`${styles.a} a me-3 col-sm-12 col-lg-3 `} href='#'>Aviso de Privacidad</Link></small>
+        <small><Link className={`${styles.a} a col-sm-12 col-lg-3`} href='#'> Términos y Condiciones</Link></small>
 
         </div>
       

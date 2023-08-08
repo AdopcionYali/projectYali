@@ -1,3 +1,4 @@
+import Link from 'next/link'
 
 
 const Navbar = () => {
@@ -5,9 +6,9 @@ const Navbar = () => {
         <>
             <nav className='navbar '>
                 <div className='container'>
-                    <a className='navbar-brand' href='#'>
+                    <Link className='navbar-brand' href='#'>
                         <img src='logo-navbar.svg' alt='logo' width='50' />
-                    </a>
+                    </Link>
                     <button className='login-btn btn'>
                     Iniciar Sesión 
                     </button>

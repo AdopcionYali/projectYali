@@ -1,0 +1,1 @@
+export const BASE_URl_API = 'https://backend-yali.vercel.app'
