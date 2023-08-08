@@ -62,11 +62,13 @@ const postSchema = mongoose.Schema({
         minLength: 4,
         maxLength: 15
     },
-    image:{ type:Schema.Types.String, ref: 'image' },
+    photoURL: {
+        type: String,
+        required: true
+    },
 
     post_id: { type: Schema.Types.ObjectId, ref: 'post' }
-    /*  - See MULTER for image files 
-        - See ZIP CODE API */
+    /* - See ZIP CODE API */
 })
 
 const Post = mongoose.model('post', postSchema)

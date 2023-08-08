@@ -17,7 +17,6 @@ const upload = (bucketName) =>
     storage: multerS3({
       s3: s3,
       bucket: bucketName,
-      contentType: multerS3.AUTO_CONTENT_TYPE,
       key: (req, file, cb) => {
         let extension = file.originalname.slice(
           file.originalname.lastIndexOf(".")

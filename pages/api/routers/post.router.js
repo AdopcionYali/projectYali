@@ -6,8 +6,19 @@ const routerPost = express.Router();
 
 
 routerPost.post('/uploads', upload('pet-profile-images').array('pet-images'), (req, res, next) => {
- console.log(req.files)
-  res.send('Imagen enviada exitosamente.')
+try {
+  res.json({
+    success: true,
+    data: {
+      data: req.files
+    }
+  })
+} catch (error) {
+  res.status(400).json({
+    success: false,
+    message: error.message
+  })
+}
 })
 
 
