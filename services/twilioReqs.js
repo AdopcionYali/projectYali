@@ -1,9 +1,10 @@
-import { CustomError } from '@/pages/api/libs/errorCustom'
+import { BASE_URl_API } from '@/libs/baseUrl'
+import { CustomError } from '@/libs/errorCustom'
 
 const postRequest = async (phoneNumber) => {
   try {
 
-    const response = await fetch('http://localhost:8080/signup/twilio/sendcode', { 
+    const response = await fetch(`${BASE_URl_API}/signup/twilio/sendcode`, { 
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(phoneNumber)
@@ -23,7 +24,7 @@ const postRequest = async (phoneNumber) => {
 
 const postVerifyCode = async (dataToVerify) => {
   try {
-    const response = await fetch(`http://localhost:8080/signup/twilio/verifycode`, { 
+    const response = await fetch(`${BASE_URl_API}/signup/twilio/verifycode`, { 
       method: 'POST',
       headers: { 'Content-Type' : 'application/json' },
       body: JSON.stringify(dataToVerify)
@@ -41,7 +42,7 @@ const postVerifyCode = async (dataToVerify) => {
 
 const postSignUp = async (userData) => {
   try {
-    const response = await fetch('http://localhost:8080/signup', {
+    const response = await fetch(`${BASE_URl_API}/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData)

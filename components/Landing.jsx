@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Link from 'next/link'
 import Slider from '@/components/Slider'
 import styles from '@/styles/Landing.module.scss'
 import { useAuth } from '@/contexts/auth.context'

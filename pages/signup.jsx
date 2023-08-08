@@ -44,7 +44,7 @@ export default function Signup() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='col-10 col-md-6 col-lg-4 bg-white d-flex flex-column justify-content-between px-4 py-3 rounded-4 shadow'
+        className='col-10 col-md-6 col-lg-4 col-xl-3 bg-white d-flex flex-column justify-content-between px-4 py-3 rounded-4 shadow'
       >
         <Image
           src={logo}

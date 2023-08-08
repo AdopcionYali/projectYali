@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styles from '@/styles/Footer.module.scss'
 import { useRouter } from 'next/navigation'
 
@@ -37,8 +38,8 @@ const Footer = () => {
         <div className=' d-flex justify-content-around '>
 
         <small className='cols-sm-12 col-6 ms-3'>Copyright © Yali 2023. Todos los derechos reservados</small>
-        <small><a className={`${styles.a} a me-3 col-sm-12 col-lg-3 `} href='#'>Aviso de Privacidad</a></small>
-        <small><a className={`${styles.a} a col-sm-12 col-lg-3`} href='#'> Términos y Condiciones</a></small>
+        <small><Link className={`${styles.a} a me-3 col-sm-12 col-lg-3 `} href='#'>Aviso de Privacidad</Link></small>
+        <small><Link className={`${styles.a} a col-sm-12 col-lg-3`} href='#'> Términos y Condiciones</Link></small>
 
         </div>
       
