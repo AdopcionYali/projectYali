@@ -24,9 +24,9 @@ const Footer = () => {
         <img className={`${styles.logo} ms-5`} src='logo-yali.svg' alt='logo-yali' width={100}></img>
        
         <ul className={`${styles.list} text-center  me-5 d-flex`}>
-          <li><a className={`${styles.a} a`} href='#'>Inicio</a></li>
-          <li><a className={`${styles.a} mx-4  a`} href='#'>Adopta</a></li>
-          <li><a className={`${styles.a} a`} onClick={()=>push('/signup?role=rescatist')}>Dar en adopción</a></li>
+          <li><Link className={`${styles.a} a`} href='#'>Inicio</Link></li>
+          <li><Link className={`${styles.a} mx-4  a`} href='#'>Adopta</Link></li>
+          <li><Link className={`${styles.a} a`} href='/signup?role=rescatist' onClick={()=>push('/signup?role=rescatist')}>Dar en adopción</Link></li>
         </ul>
         
         
