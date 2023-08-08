@@ -4,7 +4,7 @@ import uploadPetImages from '../middlewares/multer.middleware.js';
 
 const routerPost = express.Router();
 
-routerPost.post('/petImages', uploadPetImages(), (req, res) => {
+routerPost.post('/pet-images', uploadPetImages(), (req, res) => {
   console.log(req.files)
   res.send('ok')
 })

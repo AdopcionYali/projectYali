@@ -8,7 +8,7 @@ export default function Post() {
                               
                               <form method='POST' action='/upload' enctype='multipart/form-data'>
                                 Aqui se sube la imagen
-                                <input type='file' name='petImages' />
+                                <input type='file' name='pet-images' />
                                 <input type='submit'/>
                               </form>
                             </div>

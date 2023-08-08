@@ -31,11 +31,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/postsubmit.js"
-    ],
-    "/postview": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/postview.js"
     ]
   },
   "ampFirstPages": []
