@@ -1,7 +1,10 @@
 import Link from 'next/link'
-
+import { useRouter } from 'next/navigation'
 
 const Navbar = () => {
+
+    const { push } = useRouter()
+
     return (
         <>
             <nav className='navbar '>
@@ -9,7 +12,7 @@ const Navbar = () => {
                     <Link className='navbar-brand' href='#'>
                         <img src='logo-navbar.svg' alt='logo' width='50' />
                     </Link>
-                    <button className='login-btn btn'>
+                    <button onClick={()=>push('/login')} className='login-btn btn'>
                     Iniciar Sesión 
                     </button>
                 </div>
