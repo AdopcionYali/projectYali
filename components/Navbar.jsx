@@ -10,7 +10,7 @@ const Navbar = () => {
         <>
             <nav className='navbar '>
                 <div className='container'>
-                    <Link className='navbar-brand' href='#'>
+                    <Link className='navbar-brand' href='/' onClick={()=>push('/')}>
                         <img src={ logoImg.src } alt='logo' width='50' />
                     </Link>
                     <button onClick={()=>push('/login')} className='login-btn btn'>
