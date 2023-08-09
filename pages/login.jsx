@@ -7,22 +7,29 @@ import '../styles/Home.module.css'
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    try {
-      const response = await axios.post('http://localhost:8080/login', {
-        phoneNumber,
-        password,
-      })
-      const token = response.data.token
-      localStorage.setItem('token', token)
-      window.location.href = '/dashboard'
-    } catch (error) {
-      console.error('Error al iniciar sesión:', error.response.data.message)
+      setErrorMessage('Credenciales inválidas. Por favor, verifica tu número de teléfono y contraseña.')
+      setErrorMessage('')
+      try {
+        const response = await axios.post('http://localhost:8080/login', {
+          phoneNumber,
+          password,
+        })
+        setErrorMessage('')
+        const token = response.data.token
+        localStorage.setItem('token', token)
+        window.location.href = '/dashboard'
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error.response.data.message)
+        setErrorMessage('Credenciales inválidas. Por favor, verifica tu número de teléfono y contraseña.')
+      }
     }
-  }
+  
+    
 
   return (
     <div className="bg-light min-vh-100">
@@ -35,10 +42,10 @@ const Login = () => {
       </nav>
 
       <div className="bg-light min-vh-100 d-flex align-items-center justify-content-center">
-      {/* Centra todo el contenido verticalmente y horizontalmente */}
-      <div className="col-md-4">
-        <div className="card p-4" style={{ borderRadius: '8px' }}>
-          <h2 className="mb-4 text-center">Inicio de Sesión</h2>
+          <div className="col-md-4">
+            <div className="card p-4" style={{ borderRadius: '8px' }}>
+              <h2 className="mb-4">Inicio de Sesión</h2>
+              {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="phoneNumber" className="form-label">
