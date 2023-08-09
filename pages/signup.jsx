@@ -11,22 +11,27 @@ import dogFinger from '@/public/icon-dog-fingerprint.svg'
 const codeFormater = (code, limit) => code.replace(/[^\d]/g, '').slice(0, limit)
 
 export default function Signup() {
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   const [formData, setFormData] = useState(null)
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
     watch,
+    setError,
   } = useForm()
 
-  const onSubmit = (data) => {
-    postRequest({ phoneNumber: `+52${data.phoneNumber}` })
+  const onSubmit = async (data) => {
+    const isSendCode = await postRequest({
+      phoneNumber: `+52${data.phoneNumber}`,
+    })
+    if (isSendCode.status === 409) {
+      setIsVisible(false)
+      setError('phoneNumber', { type: '409' })
+      return
+    }
+    setIsVisible(true)
     setFormData(data)
-  }
-
-  const handleOnClick = () => {
-    isValid && setIsVisible(true)
   }
 
   return (
@@ -39,7 +44,7 @@ export default function Signup() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='col-10 col-md-6 col-lg-4 bg-white d-flex flex-column justify-content-between px-4 py-3 rounded-4 shadow'
+        className='col-10 col-md-6 col-lg-4 col-xl-3 bg-white d-flex flex-column justify-content-between px-4 py-3 rounded-4 shadow'
       >
         <Image
           src={logo}
@@ -76,6 +81,11 @@ export default function Signup() {
               El número debe ser de 10 dígitos
             </small>
           )}
+          {errors.phoneNumber?.type === '409' && (
+            <small className='text-warning'>
+              El número ya está registrado
+            </small>
+          )}
         </div>
 
         <div className='form-group mb-3'>
@@ -85,6 +95,7 @@ export default function Signup() {
             className='form-control mt-2'
             id='password'
             placeholder='Contraseña de minimo 6 caracteres'
+            autoComplete='off'
             {...register('password', { required: true, minLength: 6 })}
           />
           {errors.password?.type === 'required' && (
@@ -104,6 +115,7 @@ export default function Signup() {
             className='form-control mt-2'
             id='confirmPassword'
             placeholder='Tu contraseña debe coincidir'
+            autoComplete='off'
             {...register('confirmPassword', {
               required: true,
               validate: (val) => {
@@ -122,7 +134,7 @@ export default function Signup() {
         <button
           type='submit'
           className={`btn border bg-color-primary w-100 text-white ${styles.btn_nothover}`}
-          onClick={isValid ? handleOnClick : handleSubmit}
+          onClick={handleSubmit}
         >
           Continuar
         </button>
