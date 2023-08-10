@@ -9,7 +9,7 @@ const postRequest = async (phoneNumber) => {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(phoneNumber)
     })
-
+    
     if (!response.ok) throw new Error('Network response was not ok')
     if (response.code === 409) throw new CustomError('El número ya está registrado', 409)
 
@@ -29,7 +29,6 @@ const postVerifyCode = async (dataToVerify) => {
       headers: { 'Content-Type' : 'application/json' },
       body: JSON.stringify(dataToVerify)
     })
-
     if (!response.ok) throw new Error('Bad response network')
 
     const data = await response.json()
