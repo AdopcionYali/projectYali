@@ -169,8 +169,8 @@ function Modal({ isVisible, setIsVisible, formData }) {
 
         if (role === 'rescatist') { 
           push('/dashboard/rescatist') 
-        } else if (role === 'adoptist') { 
-          push('/dashboard/adoptist')
+        } else if (role === 'adopter') { 
+          push('/dashboard/adopter')
         }
       }
     } catch (error) {

@@ -29,7 +29,7 @@ const Login = () => {
       localStorage.setItem('token', token)
 
       if (role === 'rescatist') push('/dashboard/rescatist')
-      if (role === 'adoptist') push('/dashboard/adoptist')
+      if (role === 'adopter') push('/dashboard/adopter')
       if (role === 'admin') push('/dashboard/admin')
       
     } catch (error) {
