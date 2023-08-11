@@ -33,6 +33,10 @@ $tertiary-color: #F7DDBC;
       font-weight: 500 !important;
     }
     div {
+      small {
+        font-size: 0.8em;
+        position: absolute;
+      }
       &.logo_user_container {
         width: 100% !important;
         height: fit-content;

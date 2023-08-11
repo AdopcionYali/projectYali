@@ -1,7 +1,8 @@
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '@/contexts/auth.context'
+import { saveProfile } from '@/services/rescatist.services'
 import Navbar from '@/components/Navbar'
 import styles from '@/styles/DashRescatist.module.scss'
 import dogFingerprint from '@/public/icon-dog-fingerprint.svg'
@@ -25,51 +26,76 @@ const inputs = [
     label: 'Correo electrónico',
     name: 'email',
     type: 'email',
-    placeholder: 'Introduce tu código postal',
+    placeholder: 'Introduce tu correo electrónico',
+    rules: {
+      pattern:
+        /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
+    },
+    errorMessage: 'Correo no válido',
   },
   {
     label: 'Código postal',
     name: 'zipcode',
-    type: 'text',
+    type: 'number',
     placeholder: 'Introduce tu código postal',
-  },
-  {
-    label: 'Municipio',
-    name: 'town',
-    type: 'select',
-    placeholder: 'De acurdo a código postal',
-    active: true,
+    rules: { minLength: 5, maxLength: 5 },
+    errorMessage: 'Deben ser 5 digitos',
   },
   {
     label: 'Estado',
-    name: 'phone',
+    name: 'state',
     type: 'text',
-    placeholder: 'De acurdo a código postal',
-    active: true,
+    placeholder: 'De acuerdo a Código Postal',
+    disabled: true,
+  },
+  {
+    label: 'Municipio',
+    name: 'city',
+    type: 'text',
+    placeholder: 'De acuerdo a Código Postal',
+    disabled: true,
   },
 ]
 
 export default function Rescatist() {
   const [previewImg, setPreviewImg] = useState('')
+  const [zipcode, setZipcode] = useState('')
   const { user } = useAuth()
-
   const {
     register,
     handleSubmit,
     getValues,
+    setValue,
     formState: { errors, isValid },
   } = useForm()
 
-  const onSubmit = () => {
-    console.log('ENVIADO')
-    console.log(getValues())
+  useEffect(() => {
+    const getCitys = async () => {
+      let request = await fetch(
+        `https://codigo-postales-mexico-gratis.p.rapidapi.com/code_postal/consulta/cp.php?cp=${zipcode}`,
+        {
+          headers: {
+            'X-RapidAPI-Key': 'e24b67acd4mshc4ce90dd02cf333p14ab85jsnf8c3dd65bfdb',
+            'X-RapidAPI-Host': 'codigo-postales-mexico-gratis.p.rapidapi.com',
+          },
+        },
+      )
+      let { response } = await request.json()
+      setValue('state', response.estado)
+      setValue('city', response.municipio)
+    }
+    if (zipcode?.length === 5) getCitys()
+  }, [zipcode])
+
+  const onSubmit = async () => {
+    const result = await saveProfile( getValues(), user._id, localStorage.getItem('token'));
   }
 
   return (
     <>
       <Navbar />
       <main
-        className={`vw-100 mt-lg-4 d-flex flex-column flex-lg-row justify-content-evenly ${styles.main}`}
+        className={`vw-100 my-lg-4 d-flex flex-column flex-lg-row justify-content-evenly ${styles.main}`}
       >
         <aside
           className={`${styles.lateral_menu} bg-color-secondary col-12 px-3 py-3 col-lg-2 text-white rounded-4 px-lg-5 py-lg-5`}
@@ -96,7 +122,7 @@ export default function Rescatist() {
         </aside>
 
         <section className='bg-white-1 col-lg-8 rounded-4 mx-3 mx-lg-0 px-4 px-lg-5 py-3 shadow'>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} onChange={ () => setZipcode(getValues().zipcode)}>
             <h1 className='w-400'>
               Hola <span className='w-700 color-primary'>Rescatista! </span>
             </h1>
@@ -108,31 +134,52 @@ export default function Rescatist() {
 
             <div className='row d-flex'>
               <article className='col-12 col-lg-5 d-flex flex-column'>
-                {inputs.map(({ name, type, label, placeholder, active }, i) => (
-                  <div className='form-group mt-3' key={`input-${name}-${i}`}>
-                    <label className='fw-normal mb-2 mb-lg-auto' htmlFor={name}>
-                      {label}
-                    </label>
-                    <input
-                      type={type}
-                      className='form-control'
-                      id={name}
-                      placeholder={placeholder}
-                      disabled={active}
-                      {...register(name, { required: true })}
-                    />
-                  </div>
-                ))}
+                {inputs.map(
+                  (
+                    {
+                      name,
+                      type,
+                      label,
+                      placeholder,
+                      disabled,
+                      rules,
+                      errorMessage
+                    },
+                    i,
+                  ) => (
+                    <div className='form-group mt-3' key={`input-${name}-${i}`}>
+                      <label
+                        className='fw-normal fs-5 mb-2 mb-lg-auto'
+                        htmlFor={name}
+                      >
+                        {label}
+                      </label>
+                      <input
+                        type={type}
+                        className='form-control'
+                        id={name}
+                        placeholder={placeholder}
+                        disabled={disabled}
+                        {...register(name, { required: true, ...rules })}
+                      />
+                      {errors[name] && (
+                        <small className='text-warning'> {errorMessage} </small>
+                      )}
+                    </div>
+                  ),
+                )}
               </article>
 
-              <article className='col-12 col-lg-4 d-flex flex-column justify-content-between'>
+              <article className='col-12 col-lg-5 col-xl-4 d-flex flex-column justify-content-between'>
                 <p className='mt-4 mt-lg-auto'>
                   Sube una foto tuya sosteniendo tu identificación oficial
                   vigente para corroborar tu identidad.
                 </p>
-                <div className={`${styles.input_file_container} rounded-2 mb-2 d-flex align-items-center justify-content-center`}>
-                  <label htmlFor="photoIdUrl">Seleccionar archivo</label>
-                  <i className="bi bi-plus-circle ms-2" />
+                <div
+                  className={`${styles.input_file_container} rounded-2 mb-2 d-flex align-items-center justify-content-center`}
+                >
+                  <label htmlFor='photoIdUrl'>Seleccionar archivo</label>
+                  <i className='bi bi-plus-circle ms-2' />
                   <input
                     id='photoIdUrl'
                     type='file'
@@ -143,9 +190,7 @@ export default function Rescatist() {
                     }}
                   />
                 </div>
-                <div
-                  className={`${styles.logo_user_container} p-2 rounded-4`}
-                >
+                <div className={`${styles.logo_user_container} p-2 rounded-4`}>
                   <img
                     src={previewImg || iconUser.src}
                     alt='user-image'
@@ -168,7 +213,6 @@ export default function Rescatist() {
                   <button
                     type='submit'
                     className='bg-color-primary text-white w-100 rounded-2 py-1 px-2 btn_validation fw-bold border-0'
-                    onClick={(e) => console.log(isValid)}
                   >
                     Solicitar verificación
                     <Image
@@ -184,7 +228,7 @@ export default function Rescatist() {
             </div>
           </form>
         </section>
-        <aside className='col-lg-1 position-relative z-n2'>
+        <aside className='d-none d-lg-block col-lg-1 position-relative z-n2'>
           <img
             src={dogs.src}
             alt='dogs image'
