@@ -1,0 +1,60 @@
+.asideProfile {
+    background-color:  #2EC5B6;
+    border-radius: 30px;
+    color: rgb(255, 255, 255);
+    padding: 2rem;
+    word-wrap    : break-word;
+    overflow-wrap: break-word;
+    height: 500px;
+      
+}
+
+
+.formCheck:checked {
+    background-color: #2EC5B6;
+    border-color: #2EC5B6;
+}
+
+.btnSecondary {
+    background-color: #2EC5B6;
+    border: none;
+}
+
+.btnOrange {
+    background-color: #FB7043;
+    border: none;
+}
+
+
+.form {
+    border-radius: 30px;
+    padding: 2rem;
+
+    .btnSecondary:hover {
+        background-color: #1b9689;
+    }
+
+    .btnOrange:hover {
+        background-color: #c04218;
+    }
+     
+}
+
+.video {
+    width: 400px;
+}
+
+@media (max-width: 900px) {
+  
+    .asideProfile {
+       
+        height: 100px;
+        margin-bottom: 20px;
+        margin-left: 20px;
+        padding: 1.5rem;  
+    }
+
+    .video {
+        width: 200px;
+    }
+}
