@@ -44,7 +44,7 @@ export default function Signup() {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className='col-10 col-md-6 col-lg-4 bg-white d-flex flex-column justify-content-between px-4 py-3 rounded-4 shadow'
+        className='col-10 col-md-6 col-lg-4 col-xl-3 bg-white d-flex flex-column justify-content-between px-4 py-3 rounded-4 shadow'
       >
         <Image
           src={logo}
@@ -133,7 +133,7 @@ export default function Signup() {
 
         <button
           type='submit'
-          className={`btn border bg-color-primary w-100 text-white ${styles.btn_nothover}`}
+          className={`rounded-2 py-2 border bg-color-primary w-100 text-white ${styles.btn_nothover}`}
           onClick={handleSubmit}
         >
           Continuar
@@ -166,7 +166,12 @@ function Modal({ isVisible, setIsVisible, formData }) {
           password,
           role,
         })
-        push('/dashboard')
+
+        if (role === 'rescatist') { 
+          push('/dashboard/rescatist') 
+        } else if (role === 'adopter') { 
+          push('/dashboard/adopter')
+        }
       }
     } catch (error) {
       setIsValidCode(false)
@@ -234,7 +239,7 @@ function Modal({ isVisible, setIsVisible, formData }) {
           <div className='modal-footer d-flex justify-content-center pt-0'>
             <button
               type='button'
-              className={`btn bg-color-primary text-white ${styles.btn_nothover}`}
+              className={`rounded-2 py-1 px-2 bg-color-primary text-white ${styles.btn_nothover}`}
               onClick={() => {
                 setIsVisible(false)
                 setIsValidCode(false)
