@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, {  FormProvider, useFormContext } from 'react'
 import Navbar from '@/components/Navbar'
 import styles from '@/styles/AdopterProfile.module.scss'
 import { useForm } from 'react-hook-form'
+import WebcamImage from '@/components/WebCamImage'
 
 const adopterProfile = () => {
 
@@ -11,40 +12,10 @@ const adopterProfile = () => {
     console.log(data)
   })
 
-  const constraints = {
-    audio: false,
-    video: { facingMode: 'user', width: 1280, height: 720 },
-  };
+  
 
 
 
-
-  const handleCamara = () => {
-    global.navigator?.mediaDevices.getUserMedia(constraints)
-      .then((mediaStream => {
-        const video = document.getElementById('videoElement');
-        video.srcObject = mediaStream
-
-      })
-      )
-      .catch(
-        (error) => console.log(error)
-      )
-
-  }
-
-
-
-
-  const takePhoto = () => {
-    useEffect(() => {
-      const canvas = document.getElementById('canvasElement');
-      const video = document.getElementById('videoElement');
-      let ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-      console.log('hola')
-    }, []);
-  }
 
 
   return (
@@ -58,6 +29,7 @@ const adopterProfile = () => {
         </aside>
         <main className={`col-lg-9 col-sm-12 bg-light ${styles.form} `} >
           <p><b>Tu cuenta ha sido creada. Para continuar con el proceso de adoptar a tu futuro animal de compañía por favor llena la siguiente solicitud de adopción.</b></p>
+          
           <form onSubmit={handleSubmit(customSubmit)} className='d-flex row gx-5'>
             <div className='col-lg-6 col-sm-12'>Solicitud de adopción:
               <input type='text' className='form-control mt-4' {...register('name', { required: true })} placeholder='Nombre' aria-describedby='basic-addon1' />
@@ -85,16 +57,12 @@ const adopterProfile = () => {
               </div>
               {errors.email?.type === 'required' && <small className='text-danger'>Por favor escriba un correo electrónico @ejemplo.com</small>}
               <p className='mt-3'>Sube una foto tuya sosteniendo tu identificación oficial vigente: </p>
-              <button type='button' className={`btn me-3 btn-secondary ${styles.btnSecondary}`} onClick={handleCamara()}>
-                Acceder a la cámara</button>
-              <button type='button' onClick={takePhoto()} className={`btn btn-secondary ${styles.btnSecondary}`} >
-                Capturar Foto</button>
-              <video id='videoElement' className={`${styles.video} mt-3`} autoPlay={true}></video>
-              <canvas id='canvasElement'></canvas>
+             <WebcamImage register={register}  />
               <p className='mt-3'>Sube un comprobante de domicilio reciente (menor a 3 meses de vigencia) </p>
-              <button type='button' className={`btn btn-secondary ${styles.btnSecondary}`}>Elegir Archivo</button>
+              <input type='file' className='form-control' name='documents' {...register('documents')} />
               <p className='mt-3'>Sube fotos del espacio en el que estará y dormirá tu animal de compañía (máx. 5 imágenes) </p>
-              <button type='button' className={`btn btn-secondary ${styles.btnSecondary}`}>Elegir Archivos</button>
+              <input type="file" id="files" className='form-control'  name='documents2' {...register('documents2')} multiple /> 
+              
             </div>
 
 
