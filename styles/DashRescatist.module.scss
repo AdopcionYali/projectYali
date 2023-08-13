@@ -54,9 +54,13 @@ $tertiary-color: #F7DDBC;
 
       .input_file_container {
         position: relative;
-        height: 2.3rem;
+        height: 2.1rem;
         background-color: $tertiary-color;
         transition: top 0.25s linear;
+        border: none;
+        i {
+          font-size: 1.3rem;
+        }
         input {
           position: absolute;
           top: 0;

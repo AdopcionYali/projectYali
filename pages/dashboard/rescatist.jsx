@@ -8,6 +8,7 @@ import styles from '@/styles/DashRescatist.module.scss'
 import dogFingerprint from '@/public/icon-dog-fingerprint.svg'
 import dogs from '@/public/dogs-dashboard-rescatist.png'
 import iconUser from '@/public/icon-user.svg'
+import WebcamCapture from '@/components/WebCamCapture'
 
 const inputs = [
   {
@@ -60,6 +61,7 @@ const inputs = [
 export default function Rescatist() {
   const [previewImg, setPreviewImg] = useState('')
   const [zipcode, setZipcode] = useState('')
+  const [useCam, setUseCam] = useState(false)
   const { user } = useAuth()
   const {
     register,
@@ -68,14 +70,15 @@ export default function Rescatist() {
     setValue,
     formState: { errors, isValid },
   } = useForm()
-
+  console.log(getValues());
   useEffect(() => {
     const getCitys = async () => {
       let request = await fetch(
         `https://codigo-postales-mexico-gratis.p.rapidapi.com/code_postal/consulta/cp.php?cp=${zipcode}`,
         {
           headers: {
-            'X-RapidAPI-Key': 'e24b67acd4mshc4ce90dd02cf333p14ab85jsnf8c3dd65bfdb',
+            'X-RapidAPI-Key':
+              'e24b67acd4mshc4ce90dd02cf333p14ab85jsnf8c3dd65bfdb',
             'X-RapidAPI-Host': 'codigo-postales-mexico-gratis.p.rapidapi.com',
           },
         },
@@ -88,11 +91,23 @@ export default function Rescatist() {
   }, [zipcode])
 
   const onSubmit = async () => {
-    const result = await saveProfile( getValues(), user._id, localStorage.getItem('token'));
+    const result = await saveProfile(
+      getValues(),
+      user._id,
+      localStorage.getItem('token'),
+    )
   }
-
+  
   return (
     <>
+      {useCam && (
+        <WebcamCapture
+          onCapture={setPreviewImg}
+          useCam={useCam}
+          setUseCam={setUseCam}
+          setValue={setValue}
+        />
+      )}
       <Navbar />
       <main
         className={`vw-100 my-lg-4 d-flex flex-column flex-lg-row justify-content-evenly ${styles.main}`}
@@ -122,7 +137,10 @@ export default function Rescatist() {
         </aside>
 
         <section className='bg-white-1 col-lg-8 rounded-4 mx-3 mx-lg-0 px-4 px-lg-5 py-3 shadow'>
-          <form onSubmit={handleSubmit(onSubmit)} onChange={ () => setZipcode(getValues().zipcode)}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            onChange={() => setZipcode(getValues().zipcode)}
+          >
             <h1 className='w-400'>
               Hola <span className='w-700 color-primary'>Rescatista! </span>
             </h1>
@@ -143,7 +161,7 @@ export default function Rescatist() {
                       placeholder,
                       disabled,
                       rules,
-                      errorMessage
+                      errorMessage,
                     },
                     i,
                   ) => (
@@ -190,6 +208,14 @@ export default function Rescatist() {
                     }}
                   />
                 </div>
+                <button
+                  className={`${styles.input_file_container} rounded-2 mb-2 d-flex align-items-center justify-content-center`}
+                  type='button'
+                  onClick={() => setUseCam(true)}
+                >
+                  Tomar foto
+                  <i className='bi bi-camera ms-2' />
+                </button>
                 <div className={`${styles.logo_user_container} p-2 rounded-4`}>
                   <img
                     src={previewImg || iconUser.src}
