@@ -1,0 +1,71 @@
+.main {
+  text-align: justify;
+}
+.main .lateral_menu p {
+  font-weight: 500;
+}
+.main .lateral_menu div {
+  border-left: 2px solid white;
+}
+.main .lateral_menu div button {
+  font-weight: 500;
+  background-color: transparent;
+  color: white;
+  border: none;
+  text-align: start;
+  transition: background-color 0.2s linear, color 0.2s linear;
+  width: 100%;
+}
+.main .lateral_menu div button:hover {
+  background-color: #E7EAEE;
+  color: #2EC5B6;
+}
+.main form label {
+  font-weight: 500 !important;
+}
+.main form div.logo_user_container {
+  width: 100% !important;
+  border: 2px solid #fb7043;
+  text-align: center;
+}
+.main form div.logo_user_container img {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.main form button:active {
+  position: relative;
+  top: 3px;
+}
+
+.dogs_image {
+  position: absolute;
+  min-width: 310px;
+  bottom: 0;
+  left: -150%;
+  z-index: 1;
+}
+
+.smallInput {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+}
+
+.customSection {
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.customTextarea {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+  resize: none;
+}
+
+.customButton {
+  border-radius: 12px;
+}/*# sourceMappingURL=DashRescatist.module.css.map */
