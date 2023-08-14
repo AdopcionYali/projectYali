@@ -63,12 +63,12 @@ export default function Rescatist() {
   const [zipcode, setZipcode] = useState('')
   const [useCam, setUseCam] = useState(false)
   const { user } = useAuth()
-  console.log(user);
   const {
     register,
     handleSubmit,
     getValues,
     setValue,
+    clearErrors,
     formState: { errors, isValid },
   } = useForm()
 
@@ -93,13 +93,13 @@ export default function Rescatist() {
   }, [zipcode])
 
   const onSubmit = async () => {
-    const result = await saveProfile(
+    await saveProfile(
       getValues(),
       user._id,
       localStorage.getItem('token'),
     )
   }
-  
+  console.log(isValid);
   return (
     <>
       {useCam && (
@@ -126,13 +126,25 @@ export default function Rescatist() {
             Menú
           </p>
           <div className='d-flex flex-lg-column mt-2 pt-2 mt-lg-auto pt-lg-auto ms-lg-2'>
-            <button disabled={ !user?.isVerified } style={ !user?.isVerified && { cursor: 'not-allowed' } } className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'>
+            <button
+              disabled={!user?.isVerified}
+              style={!user?.isVerified && { cursor: 'not-allowed' }}
+              className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'
+            >
               Publicar
             </button>
-            <button disabled={ !user?.isVerified } style={ !user?.isVerified && { cursor: 'not-allowed' } } className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'>
+            <button
+              disabled={!user?.isVerified}
+              style={!user?.isVerified && { cursor: 'not-allowed' }}
+              className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'
+            >
               Solicitudes
             </button>
-            <button disabled={ !user?.isVerified } style={ !user?.isVerified && { cursor: 'not-allowed' } } className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'>
+            <button
+              disabled={!user?.isVerified}
+              style={!user?.isVerified && { cursor: 'not-allowed' }}
+              className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'
+            >
               Mascotas
             </button>
           </div>
@@ -179,8 +191,8 @@ export default function Rescatist() {
                         className='form-control'
                         id={name}
                         placeholder={placeholder}
-                        disabled={disabled || user?.documents}
-                        value={ user?.documents[0]?.profileInfo[name] }
+                        disabled={disabled}
+                        // value={ user?.documents[0]?.profileInfo[name] }
                         {...register(name, { required: true, ...rules })}
                       />
                       {errors[name] && (
@@ -208,6 +220,7 @@ export default function Rescatist() {
                     {...register('photoIdUrl', { required: true })}
                     onChange={(e) => {
                       setPreviewImg(URL.createObjectURL(e.target.files[0]))
+                      // setValue('photoIdUrl', e.target.files[0])
                     }}
                   />
                 </div>
@@ -242,10 +255,12 @@ export default function Rescatist() {
                   <button
                     type='submit'
                     className='bg-color-primary text-white w-100 rounded-2 py-1 px-2 btn_validation fw-bold border-0'
-                    style={ user?.documents && { cursor: 'not-allowed' } }
-                    disabled={ user?.documents }
+                    style={user?.documents && { cursor: 'not-allowed' }}
+                    // disabled={ user?.documents }
                   >
-                    { user?.documents ? 'Tu solicitud será revisada' : 'Solicitar verificación' } 
+                    {user?.documents
+                      ? 'Tu solicitud será revisada'
+                      : 'Solicitar verificación'}
                     <Image
                       src={dogFingerprint.src}
                       width={30}

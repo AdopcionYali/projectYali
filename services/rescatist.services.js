@@ -11,6 +11,7 @@ const saveProfile = async (profileData, id, token) => {
       body: JSON.stringify( { id, profileData} )
     })
     let data = await response.json()
+    if (!data.success) throw new Error('Error')
     localStorage.setItem('token', data.token)
     return data
   } catch (error) {
