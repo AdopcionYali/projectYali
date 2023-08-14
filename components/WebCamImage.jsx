@@ -2,8 +2,10 @@ import React, { useCallback, useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import styles from '@/styles/AdopterProfile.module.scss'
 
-function WebcamImage({ register }) {
 
+function WebcamImage({ setValue }) {
+
+ 
 
   const [img, setImg] = useState(null);
   const webcamRef = useRef(null);
@@ -17,6 +19,7 @@ function WebcamImage({ register }) {
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImg(imageSrc);
+    setValue('idPhoto', img)
     
     
   }, [webcamRef]);
@@ -33,12 +36,13 @@ function WebcamImage({ register }) {
             ref={webcamRef}
             screenshotFormat='image/jpeg'
             videoConstraints={videoConstraints}
+            className={` ${styles.webCam} `}
           />
           <button onClick={capture} className={`btn btn-secondary ${styles.btnSecondary}`}>Capture photo</button>
         </>
       ) : (
         <>
-          <img src={img}  alt='screenshot' name='documents3'type='image' {...register('documents3')} />
+          <img src={img}  alt='screenshot' name='idPhoto'type='image'  />
           <button onClick={() => setImg(null)} className={`btn ms-1 btn-secondary ${styles.btnSecondary}`}>Retake</button>
         </>
       )}
