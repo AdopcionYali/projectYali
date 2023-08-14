@@ -63,6 +63,7 @@ export default function Rescatist() {
   const [zipcode, setZipcode] = useState('')
   const [useCam, setUseCam] = useState(false)
   const { user } = useAuth()
+  console.log(user);
   const {
     register,
     handleSubmit,
@@ -70,22 +71,23 @@ export default function Rescatist() {
     setValue,
     formState: { errors, isValid },
   } = useForm()
-  console.log(getValues());
+
   useEffect(() => {
     const getCitys = async () => {
       let request = await fetch(
-        `https://codigo-postales-mexico-gratis.p.rapidapi.com/code_postal/consulta/cp.php?cp=${zipcode}`,
+        `https://codigos-postales-mx.p.rapidapi.com/cp/${zipcode}`,
         {
           headers: {
             'X-RapidAPI-Key':
               'e24b67acd4mshc4ce90dd02cf333p14ab85jsnf8c3dd65bfdb',
-            'X-RapidAPI-Host': 'codigo-postales-mexico-gratis.p.rapidapi.com',
+            'X-RapidAPI-Host': 'codigos-postales-mx.p.rapidapi.com',
           },
         },
       )
-      let { response } = await request.json()
-      setValue('state', response.estado)
-      setValue('city', response.municipio)
+      let response = await request.json()
+      let { estado, municipio } = response[1]
+      setValue('state', estado.nombre)
+      setValue('city', municipio.nombre)
     }
     if (zipcode?.length === 5) getCitys()
   }, [zipcode])
@@ -124,13 +126,13 @@ export default function Rescatist() {
             Menú
           </p>
           <div className='d-flex flex-lg-column mt-2 pt-2 mt-lg-auto pt-lg-auto ms-lg-2'>
-            <button className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'>
+            <button disabled={ !user?.isVerified } style={ !user?.isVerified && { cursor: 'not-allowed' } } className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'>
               Publicar
             </button>
-            <button className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'>
+            <button disabled={ !user?.isVerified } style={ !user?.isVerified && { cursor: 'not-allowed' } } className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'>
               Solicitudes
             </button>
-            <button className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'>
+            <button disabled={ !user?.isVerified } style={ !user?.isVerified && { cursor: 'not-allowed' } } className='ms-0 text-center text-lg-start ms-lg-1 my-lg-2 ps-lg-2 py-1 rounded-2'>
               Mascotas
             </button>
           </div>
@@ -177,7 +179,8 @@ export default function Rescatist() {
                         className='form-control'
                         id={name}
                         placeholder={placeholder}
-                        disabled={disabled}
+                        disabled={disabled || user?.documents}
+                        value={ user?.documents[0]?.profileInfo[name] }
                         {...register(name, { required: true, ...rules })}
                       />
                       {errors[name] && (
@@ -239,8 +242,10 @@ export default function Rescatist() {
                   <button
                     type='submit'
                     className='bg-color-primary text-white w-100 rounded-2 py-1 px-2 btn_validation fw-bold border-0'
+                    style={ user?.documents && { cursor: 'not-allowed' } }
+                    disabled={ user?.documents }
                   >
-                    Solicitar verificación
+                    { user?.documents ? 'Tu solicitud será revisada' : 'Solicitar verificación' } 
                     <Image
                       src={dogFingerprint.src}
                       width={30}
