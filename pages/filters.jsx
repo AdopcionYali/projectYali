@@ -8,19 +8,17 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Filters = () => {
-  const [selectedPet, setSelectedPet] = useState("");
+  const [selectedSpecies, setSelectedSpecies] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedSex, setSelectedSex] = useState("");
   const [selectedAge, setSelectedAge] = useState("");
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedEnergyLevel, setSelectedEnergyLevel] = useState("");
-  const [selectedPersonality, setSelectedPersonality] = useState("");
-  const [selectedVaccinationStatus, setSelectedVaccinationStatus] =
+  const [selectedActLevel, setSelectedActLevel] = useState("");
+  const [selectedVacc, setSelectedVacc] =
     useState("");
-  const [selectedSterilizationStatus, setSelectedSterilizationStatus] =
-    useState("");
-  const [selectedLeucemia, setSelectedLeucemia] = useState("");
-  const [isLeucemiaVisible, setIsLeucemiaVisible] = useState(false);
+  const [selectedIsNeutered, setSelectedIsNeutered] =
+    useState(false);
+  const [selectedIsFelvPositive, setIsFelvPositive] = useState(false);
+  const [isFelvPositiveVisible, setIsFelvPositiveVisible] = useState(false);
   const [pets, setPets] = useState([]);
 
   const getPets = useCallback(async () => {
@@ -31,12 +29,10 @@ const Filters = () => {
           petSpecies: selectedPet,
           petSex: selectedSex,
           petAge: selectedAge,
-          petSize: selectedSize,
-          petEnergy: selectedEnergyLevel,
-          petPersonality: selectedPersonality,
-          petVaccination: selectedVaccinationStatus,
-          petSterilization: selectedSterilizationStatus,
-          leucemia: isLeucemiaVisible ? "libre" : null,
+          actLevel: selectedActLevel,
+          vacc: selectedVacc,
+          isNeutered: selectedIsNeutered,
+          isFelvPositive: selectedIsFelvPositive ? "libre" : null,
           petLocation: selectedLocation,
         },
       });
@@ -45,16 +41,14 @@ const Filters = () => {
       console.error("Error al obtener los detalles de:", error);
     }
   }, [
-    selectedPet,
+    selectedSpecies,
     selectedLocation,
     selectedSex,
     selectedAge,
-    selectedSize,
-    selectedEnergyLevel,
-    selectedPersonality,
-    selectedVaccinationStatus,
-    selectedSterilizationStatus,
-    isLeucemiaVisible,
+    selectedActLevel,
+    selectedVacc,
+    selectedIsNeutered,
+    selectedIsFelvPositive,
   ]);
 
   useEffect(() => {
@@ -64,8 +58,8 @@ const Filters = () => {
   const handleFilterChange = (filter, value) => {
     switch (filter) {
       case "petSpecies":
-        setSelectedPet(value);
-        setIsLeucemiaVisible(value === "gato");
+        setSelectedSpecies(value);
+        setIsFelvPositiveVisible(value === "gato");
         break;
       case "petSex":
         setSelectedSex(value);
@@ -73,21 +67,19 @@ const Filters = () => {
       case "petAge":
         setSelectedAge(value);
         break;
-      case "petSize":
-        setSelectedSize(value);
+      case "actLevel":
+        setSelectedActLevel(value);
         break;
-      case "petEnergy":
-        setSelectedEnergyLevel(value);
+      case "vacc":
+        setSelectedVacc(value);
         break;
-      case "petPersonality":
-        setSelectedPersonality(value);
+      case "isNeutered":
+        setSelectedIsNeutered(value);
         break;
-      case "petVaccination":
-        setSelectedVaccinationStatus(value);
-        break;
-      case "petSterilization":
-        setSelectedSterilizationStatus(value);
-        break;
+        case "petLocation":
+        setSelectedLocation(value);
+        case "isFelvPositive":
+         setIsFelvPositive(value)
       default:
         break;
     }
@@ -111,7 +103,7 @@ const Filters = () => {
               <input
                 type='radio'
                 value='perro'
-                checked={selectedPet === "perro"}
+                checked={selectedSpecies === "perro"}
                 onChange={() => handleFilterChange("petSpecies", "perro")}
               />
               Perro</div>
@@ -152,47 +144,16 @@ const Filters = () => {
             </select>
           </div>
           <div className={`${styles.filter_group}`}>
-            <label htmlFor='tamano'>Tamaño</label>
-            <select
-              id='tamano'
-              className='form-select'
-              value={selectedSize}
-              onChange={(e) => setSelectedSize(e.target.value)}
-            >
-              <option value='pequeno'>Pequeño</option>
-              <option value='mediano'>Mediano</option>
-              <option value='grande'>Grande</option>
-              <option value='gigante'>Gigante</option>
-            </select>
-          </div>
-          <div className={`${styles.filter_group}`}>
             <label htmlFor='nivel-actividad'>Nivel de Actividad</label>
             <select
               id='nivel-actividad'
               className='form-select'
               value={selectedEnergyLevel}
-              onChange={(e) => setSelectedEnergyLevel(e.target.value)}
+              onChange={(e) => setSelectedActLevel(e.target.value)}
             >
               <option value='alta'>Alta</option>
               <option value='moderada'>Moderada</option>
               <option value='baja'>Baja</option>
-            </select>
-          </div>
-          <div className={`${styles.filter_group}`}>
-            <label htmlFor='personalidad'>Personalidad</label>
-            <select
-              id='personalidad'
-              className='form-select'
-              value={selectedPersonality}
-              onChange={(e) => setSelectedPersonality(e.target.value)}
-            >
-              <option value='timido'>Tímido</option>
-              <option value='apegado'>Apegado</option>
-              <option value='relajado'>Relajado</option>
-              <option value='jugueton'>Juguetón</option>
-              <option value='sociable'>Sociable</option>
-              <option value='dominante'>Dominante</option>
-              <option value='independiente'>Independiente</option>
             </select>
           </div>
           <div className={`${styles.filter_group}`}>
@@ -201,7 +162,7 @@ const Filters = () => {
               id='vacunacion'
               className='form-select'
               value={selectedVaccinationStatus}
-              onChange={(e) => setSelectedVaccinationStatus(e.target.value)}
+              onChange={(e) => setSelectedVacc(e.target.value)}
             >
               <option value='carnet-completo'>
                 Todas las vacunas y desparasitado
@@ -216,27 +177,24 @@ const Filters = () => {
             <select
               id='esterilizacion'
               className='form-select'
-              value={selectedSterilizationStatus}
-              onChange={(e) => setSelectedSterilizationStatus(e.target.value)}
+              value={selectedIsNeutered}
+              onChange={(e) => setSelectedIsNeutered(e.target.value)}
             >
-              <option value='esterilizado'>Esterilizado</option>
-              <option value='sin-esterilizar'>Sin esterilizar</option>
+              <option value='true'>Esterilizado</option>
+              <option value='false'>Sin esterilizar</option>
             </select>
           </div>
           {isLeucemiaVisible && (
             <div className={`${styles.filter_group}`}>
-              <label htmlFor='leucemia'>¿Libre de leucemia felina?</label>
+              <label htmlFor='felv'>¿Libre de leucemia felina?</label>
               <select
-                id='leucemia'
+                id='felv'
                 className='form-select'
-                value={isLeucemiaVisible}
-                onChange={(e) => setSelectedLeucemia(e.target.value)}
+                value={isFelvPositiveVisible}
+                onChange={(e) => setIsFelvPositive(e.target.value)}
               >
-                <option value='libre'>Libre de leucemia</option>
-                <option value='presenta-leucemia'>Presenta leucemia</option>
-                <option value='sin-prueba'>
-                  No se le ha realizado la prueba
-                </option>
+                <option value='false'>Libre de leucemia/No se ha realizado prueba</option>
+                <option value='true'>Presenta leucemia</option>
               </select>
             </div>
           )}
@@ -249,20 +207,20 @@ const Filters = () => {
 
         <main className={`col-lg-9 ${styles.main}`}>
           <div className='row'>
-            {pets.map((pet) => (
-              <div key={pet._id} className='col-md-4 mb-4'>
+            {pets.map((post) => (
+              <div key={post._id} className='col-md-4 mb-4'>
                 <div className='card'>
                   <Image
-                    src={pet.image}
+                    src={post.photoURL}
                     className='card-img-top'
-                    alt={pet.name}
+                    alt={post.petName}
                   />
                   <div className='card-body'>
-                    <h5 className='card-title'>{pet.name}</h5>
-                    <p className='card-text'>Edad: {pet.age}</p>
-                    <p className='card-text'>Personalidad: {pet.personality}</p>
+                    <h5 className='card-title'>{post.petName}</h5>
+                    <p className='card-text'>Edad: {post.petAge}</p>
+                    <p className='card-text'>Personalidad: {post.actLevel}</p>
                     <div className='d-grid gap-2'>
-                      <Link href={`/post/${pet._id}`}>
+                      <Link href={`/post/${post._id}`}>
                         <a className='btn btn-primary'>Ver más</a>
                       </Link>
                       <Link href='/signup'>
