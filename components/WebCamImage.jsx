@@ -3,11 +3,10 @@ import Webcam from 'react-webcam';
 import styles from '@/styles/AdopterProfile.module.scss'
 
 
-function WebcamImage({ setValue }) {
+function WebcamImage({ setValue, setImg, img }) {
+
 
  
-
-  const [img, setImg] = useState(null);
   const webcamRef = useRef(null);
 
   const videoConstraints = {
@@ -19,10 +18,15 @@ function WebcamImage({ setValue }) {
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImg(imageSrc);
-    setValue('idPhoto', img)
-    
-    
+    setValue('idPhoto', imageSrc)
+
+
   }, [webcamRef]);
+
+
+
+
+
 
   return (
     <div className='Container'>
@@ -38,12 +42,12 @@ function WebcamImage({ setValue }) {
             videoConstraints={videoConstraints}
             className={` ${styles.webCam} `}
           />
-          <button onClick={capture} className={`btn btn-secondary ${styles.btnSecondary}`}>Capture photo</button>
+          <button onClick={capture} type='button' className={`btn btn-secondary ${styles.btnSecondary}`}>Capture photo</button>
         </>
       ) : (
         <>
-          <img src={img}  alt='screenshot' name='idPhoto'type='image'  />
-          <button onClick={() => setImg(null)} className={`btn ms-1 btn-secondary ${styles.btnSecondary}`}>Retake</button>
+          <img src={img} alt='screenshot'  type='image'   />
+          <button onClick={() => setImg(null)} type='button' className={`btn ms-1 btn-secondary ${styles.btnSecondary}`}>Retake</button>
         </>
       )}
     </div>
