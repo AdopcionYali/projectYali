@@ -1,14 +1,6 @@
 
 import mongoose, { Schema } from "mongoose"
 
-const imageSchema = mongoose.Schema({
-    image: {
-        data: Buffer,
-        contentType: String
-    }
-});
-const ImageModel = mongoose.model('image', imageSchema)
-
 const postSchema = mongoose.Schema({
     petName:{
         type: String,
@@ -62,7 +54,7 @@ const postSchema = mongoose.Schema({
         minLength: 4,
         maxLength: 15
     },
-    photoURL: {
+    photoUrl: {
         type: String,
         required: true
     },
@@ -73,4 +65,4 @@ const postSchema = mongoose.Schema({
 
 const Post = mongoose.model('post', postSchema)
 
-export { Post, ImageModel }
+export { Post }

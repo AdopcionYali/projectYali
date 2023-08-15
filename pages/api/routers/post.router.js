@@ -4,23 +4,42 @@ import upload from '../middlewares/multer.middleware.js';
 
 const routerPost = express.Router();
 
-
-routerPost.post('/uploads', upload('pet-profile-images').array('pet-images'), (req, res, next) => {
+routerPost.post('/:id/uploads', upload('pet-profile-images').single('pet-images'), async(req, res, next) => {
 try {
+const id = req.params.id
+let update = { photoUrl: req.file.location}
+const updatedPost = await updatePost( id, update, { new: true })
   res.json({
     success: true,
     data: {
-      data: req.files
-    }
-  })
+      data: updatedPost
+    }})
 } catch (error) {
   res.status(400).json({
     success: false,
     message: error.message
   })
-}
-})
+}})
 
+/* routerPost.post('/:id/uploads', upload('pet-profile-images').array('pet-images'), async(req, res, next) => {
+try {
+const id = req.params.id
+let location = req.files.location
+let update = req.files.map((files)=> {
+  photoUrls: location
+}) 
+const updatedPost = await updatePost( id, update, { new: true })
+  res.json({
+    success: true,
+    data: {
+      data: updatedPost
+    }})
+} catch (error) {
+  res.status(400).json({
+    success: false,
+    message: error.message
+  })
+}}) */
 
 routerPost.post('/', async (req, res) => {
   try {
@@ -34,7 +53,7 @@ routerPost.post('/', async (req, res) => {
       background,
       isNeutered,
       felvPositive,
-      petLocation,
+      petLocation
     } = req.body;
     const postCreated = await createPost(req.body);
     res.json({
@@ -89,7 +108,7 @@ routerPost.patch('/:id', async (req, res) => {
     try {
         const { id } = req.params
         const newData = req.body
-        const modifiedPost = updatePost(id, newData)
+        const modifiedPost = await updatePost(id, newData)
         res.json({
             success: true,
             message: 'post updated successfully!',

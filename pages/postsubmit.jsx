@@ -20,7 +20,7 @@ export default function Post() {
 
     const onUpload = async () => {
         if (!image)
-          return setStateSnackbarContext(
+          return setStateContext(
             true,
             "Please select an image!",
             "warning"
