@@ -88,9 +88,6 @@ const Login = () => {
           <button type='submit' className='btn btn-primary w-100'>
             Iniciar Sesión
           </button>
-          <button type='button' className='btn btn-secondary w-100 mt-3'>
-            Iniciar sesión con Google
-          </button>
         </form>
       </section>
 

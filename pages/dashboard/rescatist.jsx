@@ -9,6 +9,7 @@ import dogFingerprint from '@/public/icon-dog-fingerprint.svg'
 import dogs from '@/public/dogs-dashboard-rescatist.png'
 import iconUser from '@/public/icon-user.svg'
 import WebcamCapture from '@/components/WebCamCapture'
+import { useRouter } from 'next/router'
 
 const inputs = [
   {
@@ -63,6 +64,7 @@ export default function Rescatist() {
   const [file, setFile] = useState(null)
   const [zipcode, setZipcode] = useState('')
   const [useCam, setUseCam] = useState(false)
+  const router = useRouter()
   const { user } = useAuth()
   const {
     register,
@@ -90,7 +92,7 @@ export default function Rescatist() {
       setValue('state', estado.nombre) 
       setValue('city', municipio.nombre)
     }
-    if (zipcode?.length === 5) getCitys()
+    zipcode?.length === 5 && getCitys()
   }, [zipcode])
 
   const onSubmit = async () => { 
@@ -100,6 +102,7 @@ export default function Rescatist() {
       user._id,
       localStorage.getItem('token'),
     )
+    router.reload()
   }
 
   return (
