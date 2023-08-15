@@ -1,15 +1,15 @@
 import { useRef, useState } from 'react'
 import Webcam from 'react-webcam'
 
-const WebcamCapture = ({ onCapture, useCam, setUseCam, setValue }) => {
+const WebcamCapture = ({ onCapture, useCam, setUseCam, setFile }) => {
   const webcamRef = useRef(null)
   const [imageSrc, setImageSrc] = useState(null)
 
   const capture = () => {
-    const imageSrc = webcamRef.current.getScreenshot()
-    setImageSrc(imageSrc)
-    onCapture(imageSrc)
-    setValue('photoIdUrl', imageSrc)
+    const src = webcamRef.current.getScreenshot()
+    setImageSrc(src)
+    onCapture(src)
+    setFile(src)
   }
 
   return (

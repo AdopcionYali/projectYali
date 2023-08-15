@@ -69,7 +69,6 @@ export default function Rescatist() {
     handleSubmit,
     getValues,
     setValue,
-    clearErrors,
     formState: { errors, isValid },
   } = useForm()
 
@@ -96,14 +95,13 @@ export default function Rescatist() {
 
   const onSubmit = async () => { 
     setValue('photoIdUrl', file)
-    console.log(getValues())
     await saveProfile(
       getValues(),
       user._id,
       localStorage.getItem('token'),
     )
   }
-  console.log(isValid)
+
   return (
     <>
       {useCam && (
@@ -111,7 +109,7 @@ export default function Rescatist() {
           onCapture={setPreviewImg}
           useCam={useCam}
           setUseCam={setUseCam}
-          setValue={setValue}
+          setFile={setFile}
         />
       )}
       <Navbar />
