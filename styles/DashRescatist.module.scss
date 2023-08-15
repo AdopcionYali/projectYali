@@ -1,0 +1,86 @@
+$primary-color: #fb7043;
+$hover-lateral-menu: #E7EAEE;
+$secondary-color: #2EC5B6;
+$tertiary-color: #F7DDBC;
+
+.main {
+  text-align: justify;
+
+  .lateral_menu {
+    p {
+      font-weight: 500;
+    }
+    div {
+      border-left: 2px solid white;
+      button {
+        font-weight: 500;
+        background-color: transparent;
+        color: white;
+        border: none;
+        text-align: start;
+        transition: background-color 0.2s linear, color 0.2s linear;
+        width: 100%;
+        &:hover {
+          background-color: $hover-lateral-menu;
+          color: $secondary-color;
+        }
+      }
+    }
+  }
+
+  form {
+    label {
+      font-weight: 500 !important;
+    }
+    div {
+      &.logo_user_container {
+        width: 100% !important;
+        border: 2px solid $primary-color;
+        text-align: center;
+        img {
+          object-fit: contain;
+        }
+      }
+    }
+
+    button {
+      &:active {
+        position: relative;
+        top: 3px;
+      }
+    }
+  }
+}
+
+.dogs_image {
+  position: absolute;
+  min-width: 310px;
+  bottom: 0;
+  left: -150%;
+  z-index: 1;
+}
+
+.smallInput {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+}
+
+.customSection {
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.customTextarea {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100%;
+  resize: none;
+}
+
+.customButton {
+  border-radius: 12px;
+}

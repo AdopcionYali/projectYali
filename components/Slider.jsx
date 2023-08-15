@@ -67,11 +67,14 @@ let posts = [
 const Slider = () => {
     const [sliderRef] = useKeenSlider({
         breakpoints: {
-            '(min-width: 500px)': {
-                slides: { perView: 2, spacing: 5 },
+            '(min-width: 300px)': {
+                slides: { perView: 1, spacing: 12 },
+            },
+            '(min-width: 600px)': {
+                slides: { perView: 2, spacing: 12 },
             },
             '(min-width: 1000px)': {
-                slides: { perView: 4, spacing: 10 },
+                slides: { perView: 4, spacing: 12 },
             },
         },
 
@@ -119,7 +122,7 @@ const Slider = () => {
         <div className='  mx-4 mt-4'>
 
 
-            <div ref={sliderRef} className='keen-slider mb-5 container'
+            <div ref={sliderRef} className='keen-slider mb-5 container '
 
 
             >
@@ -127,7 +130,7 @@ const Slider = () => {
                     ? posts.map((post) => {
                         return (
                             <div key={post.id} >
-                                <div className={`card text-bg-dark  col-lg-3 post keen-slider__slide ${styles.post}`}>
+                                <div className={`card text-bg-dark col-lg-3 post keen-slider__slide ${styles.post}`}>
                                     <img src={post.image} 
                                         className={`card-img ${styles.card_img}`}   alt='...' />
                                     <div className={`card-img-overlay d-flex align-items-end ${styles.card_img_overlay}`}>

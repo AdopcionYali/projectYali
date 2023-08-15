@@ -7,9 +7,11 @@
 }
 
 .btn_nothover {
-  transition: background-color 0.3s;
-  &:hover {
-    background-color: rgb(251, 112, 67, 0.8);
+  transition: all 0.3s linear;
+  font-weight: 500;
+  &:active {
+    position: relative;
+    top: 3px;
   }
 }
 

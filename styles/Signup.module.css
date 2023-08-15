@@ -1,0 +1,26 @@
+.input__arrows::-webkit-outer-spin-button, .input__arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.btn_nothover {
+  transition: all 0.3s linear;
+  font-weight: 500;
+}
+.btn_nothover:active {
+  position: relative;
+  top: 3px;
+}
+
+.modal {
+  animation: show-modal 0.3s linear 1;
+}
+
+@keyframes show-modal {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}/*# sourceMappingURL=Signup.module.css.map */

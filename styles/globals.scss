@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;900&family=Raleway:wght@300;400;600&display=swap');
-
 $primary-color: #FB7043;
 $secondary-color: #2EC5B6;
 $tertiary-color: #F7DDBC;
@@ -27,11 +25,11 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $tile-font;
+  font-family: $tile-font !important;
 }
 
 p, small, button, input, select {
-  font-family: $paragraph-font;
+  font-family: $paragraph-font !important;
 }
 
 /* Raleway */
