@@ -86,6 +86,7 @@ export default function Rescatist() {
           },
         },
       )
+
       let response = await request.json()
       let { estado, municipio } = response[0]
   
@@ -196,8 +197,8 @@ export default function Rescatist() {
                         className='form-control'
                         id={name}
                         placeholder={placeholder}
-                        disabled={disabled || user?.documents[0]?.profileInfo }
-                        value={ user?.documents[0]?.profileInfo[name] }
+                        disabled={disabled || user?.documents?.[0]?.profileInfo }
+                        value={user?.documents && user.documents[0]?.profileInfo && user.documents[0].profileInfo[name]}
                         {...register(name, { required: true, ...rules })}
                       />
                       {errors[name] && (
@@ -222,7 +223,7 @@ export default function Rescatist() {
                     id='photoIdUrl'
                     type='file'
                     className='form-control'
-                    disabled={ user?.documents[0]?.profileInfo }
+                    disabled={ user?.documents?.[0]?.profileInfo }
                     {...register('photoIdUrl', { required: true })}
                     onChange={(e) => {
                       setPreviewImg(URL.createObjectURL(e.target.files[0]))
@@ -239,14 +240,14 @@ export default function Rescatist() {
                   className={`${styles.input_file_container} rounded-2 mb-2 d-flex align-items-center justify-content-center`}
                   type='button'
                   onClick={() => setUseCam(true)}
-                  disabled={ user?.documents[0]?.profileInfo }
+                  disabled={ user?.documents?.[0]?.profileInfo }
                 >
                   Tomar foto
                   <i className='bi bi-camera ms-2' />
                 </button>
                 <div className={`${styles.logo_user_container} p-2 rounded-4`}>
                   <img
-                    src={ user?.documents[0]?.profileInfo.photoIdUrl || previewImg || iconUser.src}
+                    src={ user?.documents?.[0]?.profileInfo.photoIdUrl || previewImg || iconUser.src}
                     alt='user-image'
                     className='rounded-4'
                   />
@@ -257,8 +258,8 @@ export default function Rescatist() {
                     type='checkbox'
                     className='form-check-input'
                     {...register('privacy', { required: true })}
-                    disabled={ user?.documents[0]?.profileInfo }
-                    value={ user?.documents[0]?.profileInfo.privacy }
+                    disabled={ user?.documents?.[0]?.profileInfo }
+                    value={ user?.documents?.[0]?.profileInfo.privacy }
                   />
                   <label htmlFor='privacy' className='form-check-label'>
                     Acepto el aviso de privacidad y los términos y condiciones
@@ -270,7 +271,7 @@ export default function Rescatist() {
                     type='submit'
                     className='bg-color-primary text-white w-100 rounded-2 py-1 px-2 btn_validation fw-bold border-0'
                     style={user?.documents && { cursor: 'not-allowed' }}
-                    disabled={ user?.documents[0]?.profileInfo }
+                    disabled={ user?.documents?.[0]?.profileInfo }
                   >
                     {user?.documents
                       ? 'Tu solicitud será revisada'
