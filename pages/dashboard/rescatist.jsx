@@ -96,7 +96,7 @@ export default function Rescatist() {
     await saveProfile(getValues(), user._id, localStorage.getItem('token'))
     router.reload()
   }
-  console.log(user);
+
   return (
     <>
       {useCam && (
