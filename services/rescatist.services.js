@@ -1,5 +1,3 @@
-import { BASE_URl_API } from '@/libs/baseUrl'
-
 const saveProfile = async (profileData, id, token) => {
   try {
     let response = await fetch(`${BASE_URl_API}/rescatist/saveprofile`, {
