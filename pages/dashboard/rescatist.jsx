@@ -77,21 +77,14 @@ export default function Rescatist() {
   useEffect(() => {
     const getCitys = async () => {
       let request = await fetch(
-        `https://codigos-postales-mx.p.rapidapi.com/cp/${zipcode}`,
-        {
-          headers: {
-            'X-RapidAPI-Key':
-              'e24b67acd4mshc4ce90dd02cf333p14ab85jsnf8c3dd65bfdb',
-            'X-RapidAPI-Host': 'codigos-postales-mx.p.rapidapi.com',
-          },
-        },
+        `https://apis.forcsec.com/api/codigos-postales/20230815-f2e1af4e8b366cc9/${zipcode}`
       )
 
       let response = await request.json()
-      let { estado, municipio } = response[0]
-  
-      setValue('state', estado.nombre) 
-      setValue('city', municipio.nombre)
+      let { estado, municipio } = response.data
+
+      setValue('state', estado) 
+      setValue('city', municipio)
     }
     zipcode?.length === 5 && getCitys()
   }, [zipcode])
