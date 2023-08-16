@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import 'dotenv/config'
 import axios from 'axios'
 import "../styles/Home.module.css"
-
 import Head from 'next/head'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -17,7 +17,7 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      const response = await axios.post('http://localhost:8080/login', {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
         phoneNumber: `+52${phoneNumber}`,
         password,
       })
