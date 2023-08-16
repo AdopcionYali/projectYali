@@ -8,11 +8,43 @@ import { BASE_URl_API } from '@/libs/baseUrl'
 const adopterProfile = () => {
 
 
-
   const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm()
   const [zipcode, setZipcode] = useState('')
   const [img, setImg] = useState(null);
+  
+  const handleAdressDocPhotoChange = (event) => {
+    const files = event.target.files;
+    const base64File = [];
 
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+
+      reader.onload = () => {
+        base64File.push(reader.result);
+        setValue('addressDoc', base64File[0])
+      };
+    }
+  };
+
+
+  const handleHousePhotosChange = (event) => {
+    const files = event.target.files;
+    const base64Array = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[i]);
+
+      reader.onload = () => {
+        base64Array.push(reader.result);
+        // var photosObj = Object.assign({}, base64Array)
+        setValue('housePhotos', base64Array)
+      };
+    }
+  };
+
+ 
 
   useEffect(() => {
     const getCitys = async () => {
@@ -37,35 +69,36 @@ const adopterProfile = () => {
 
   }, [zipcode])
 
+
+
   const customSubmit = (async (data) => {
-    console.log(data)
-
-    // const authorDataString = localStorage.getItem('token').split('.')[1];
-    // const { _id } = JSON.parse(atob(authorDataString));
-    // data['user'] = _id;
-    // const token = localStorage.getItem('token')
-
-
-    // try {
-    //   const response = await fetch(`${BASE_URl_API}users/${_id}`, {
-    //     method: 'PATCH',
-    //     headers: {
-    //       'Authorization': `Bearer ${token}`,
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(data)
-    //   })
-
-    //   console.log(data)
+    
+        // const authorDataString = localStorage.getItem('token').split('.')[1];
+        // const { _id } = JSON.parse(atob(authorDataString));
+        // data['user'] = _id;
+        // const token = localStorage.getItem('token')
 
 
+        // try {
+        //   const response = await fetch(`${BASE_URl_API}users/${_id}`, {
+        //     method: 'PATCH',
+        //     headers: {
+        //       'Authorization': `Bearer ${token}`,
+        //       'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(data)
+        //   })
 
-    // } catch (error) {
-    //   alert('Something went wrong');
-    //   console.log(error)
+        console.log(data)
 
 
-    // }
+
+        // } catch (error) {
+        //   alert('Something went wrong');
+        //   console.log(error)
+
+
+        // }
 
   })
 
@@ -85,7 +118,7 @@ const adopterProfile = () => {
         <main className={`col-lg-9 col-sm-12 bg-light ${styles.form} `} >
           <p><b>Tu cuenta ha sido creada. Para continuar con el proceso de adoptar a tu futuro animal de compañía por favor llena la siguiente solicitud de adopción.</b></p>
 
-          <form onSubmit={handleSubmit(customSubmit)} onChange={() => setZipcode(getValues().zipcode)} className='d-flex row gx-5'>
+          <form onSubmit={handleSubmit(customSubmit)} onChange={() => setZipcode(getValues().zipcode)}  className='d-flex row gx-5'>
             <div className='col-lg-6 col-sm-12'>Solicitud de adopción:
               <input {...register('name', { required: true })} 
                      type='text' 
@@ -156,29 +189,34 @@ const adopterProfile = () => {
                     placeholder='Correo electrónico' 
                     aria-describedby='basic-addon2' 
                     />
-
               </div>
               {errors.email?.type === 'required' && <small className='text-danger'>Por favor escriba un correo electrónico @ejemplo.com</small>}
               <p className='mt-3'>Sube una foto tuya sosteniendo tu identificación oficial vigente: </p>
-              <WebcamImage setValue={setValue} setImg={setImg} img={img}/>
+              <WebcamImage setValue={setValue} setImg={setImg} img={img} />
               <p className='mt-3'>Sube un comprobante de domicilio reciente (menor a 3 meses de vigencia) </p>
               <input 
                     type='file' 
                     className='form-control' 
                     name='addressDoc' 
-                    {...register('addressDoc')} 
+                    onChange={handleAdressDocPhotoChange}
+                    required={true}
                     />
               <p className='mt-3'>Sube fotos del espacio en el que estará y dormirá tu animal de compañía (máx. 5 imágenes) </p>
               <input 
-                    type="file" 
-                    id="files" 
-                    className='form-control' 
-                    name='housePhotos' 
-                    {...register('housePhotos')} 
+                    type='file' 
+                    id='files' 
+                    className='form-control'  
+                    onChange={handleHousePhotosChange}
+                    required={true}
+                    name='housePhotos'
                     multiple 
                     />
+                    
 
             </div>
+
+
+
 
 
             <div className='col-lg-6 col-sm-12'>
@@ -215,7 +253,7 @@ const adopterProfile = () => {
                       htmlFor='flexRadioDefault'> si 
                   </label>
                 </div>
-                {errors.roomiesAgreement?.type === 'required' && <small className='text-danger'>Por favor seleccione una de las dos opciones</small>}
+                {errors.roomiesAgreement?.type === 'required' && <small className='text-danger ms-1'>Por favor seleccione una de las dos opciones</small>}
                 <div className='form-check ms-3'>
                   <input 
                       className={`form-check-input ${styles.formCheck}`} 
@@ -229,7 +267,7 @@ const adopterProfile = () => {
                       htmlFor='flexRadioDefault'> No 
                   </label>
                 </div>
-                {errors.roomiesAgreement?.type === 'required' && <small className='text-danger'>Por favor seleccione una de las dos opciones</small>}
+                {errors.roomiesAgreement?.type === 'required' && <small className='text-danger ms-1'>Por favor seleccione una de las dos opciones</small>}
               </div>
               <p className='mt-3'>¿Ya tienes o has tenido animales de compañía?</p>
               <div className='d-flex'>
@@ -246,7 +284,7 @@ const adopterProfile = () => {
                       htmlFor='flexRadioDefault2'> si 
                   </label>
                 </div>
-                {errors.pastPets?.type === 'required' && <small className='text-danger'>Por favor seleccione una de las dos opciones</small>}
+                {errors.pastPets?.type === 'required' && <small className='text-danger ms-1'>Por favor seleccione una de las dos opciones</small>}
                 <div className='form-check ms-3'>
                   <input 
                       className={`form-check-input ${styles.formCheck}`} 
@@ -260,7 +298,7 @@ const adopterProfile = () => {
                       htmlFor='flexRadioDefault2'> No 
                   </label>
                 </div>
-                {errors.pastPets?.type === 'required' && <small className='text-danger'>Por favor seleccione una de las dos opciones</small>}
+                {errors.pastPets?.type === 'required' && <small className='text-danger ms-1'>Por favor seleccione una de las dos opciones</small>}
               </div>
               <p className='mt-3'>Si ya no lo tienes ¿qué pasó con él?</p>
               <input 
@@ -284,31 +322,31 @@ const adopterProfile = () => {
                     aria-describedby='addon-wrapping' 
               />
               {errors.hardEconomicSituationScenario?.type === 'required' && <small className='text-danger'>Por favor escriba su respuesta</small>}
-              <div className="form-check mt-3">
+              <div className='form-check mt-3'>
                 <input 
                       className={`form-check-input ${styles.formCheck}`} 
                       {...register('commitment', { required: true })} 
-                      type="checkbox" 
-                      id="flexCheckDefault" 
+                      type='checkbox' 
+                      id='flexCheckDefault' 
                 />
                 <label 
-                      className="form-check-label" 
-                      htmlFor="flexCheckDefault">La vida media de un animal de compañía es de 15 años ¿Te comprometes a cuidarlo y atenderlo durante toda su vida?
+                      className='form-check-label' 
+                      htmlFor='flexCheckDefault'>La vida media de un animal de compañía es de 15 años ¿Te comprometes a cuidarlo y atenderlo durante toda su vida?
                 </label>
               </div>
               {errors.commitment?.type === 'required' && <small className='text-danger'>Necesitará  comprometerse marcando esta casilla</small>}
 
-              <div className="form-check mt-3">
+              <div className='form-check mt-3'>
                 <input 
                     className={`form-check-input ${styles.formCheck}`} 
                     {...register('temrsAndConditions', { required: true })} 
-                    type="checkbox" 
-                    value="" 
-                    id="flexCheckDefault" 
+                    type='checkbox' 
+                    value='' 
+                    id='flexCheckDefault' 
                 />
                 <label 
-                    className="form-check-label" 
-                    htmlFor="flexCheckDefault"> Acepto el aviso de privacidad y los términos y condiciones de Yali 
+                    className='form-check-label' 
+                    htmlFor='flexCheckDefault'> Acepto el aviso de privacidad y los términos y condiciones de Yali 
                 </label>
                 {errors.temrsAndConditions?.type === 'required' && <small className='text-danger'>Favor de leer y aceptar los términos y condiciones marcando esta casilla </small>}
               </div>
@@ -329,3 +367,5 @@ const adopterProfile = () => {
 }
 
 export default adopterProfile
+
+

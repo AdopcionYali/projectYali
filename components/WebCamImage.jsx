@@ -18,7 +18,7 @@ function WebcamImage({ setValue, setImg, img }) {
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImg(imageSrc);
-    setValue('idPhoto', imageSrc)
+    setValue('photoIdUrl', imageSrc)
 
 
   }, [webcamRef]);
@@ -46,8 +46,8 @@ function WebcamImage({ setValue, setImg, img }) {
         </>
       ) : (
         <>
-          <img src={img} alt='screenshot'  type='image'   />
-          <button onClick={() => setImg(null)} type='button' className={`btn ms-1 btn-secondary ${styles.btnSecondary}`}>Retake</button>
+          <img src={img} alt='screenshot'  type='image'   className={` ${styles.webCam} `} />
+          <button onClick={() => setImg(null)} type='button' className={`btn ms-1 mt-1 btn-secondary ${styles.btnSecondary}`}>Retake</button>
         </>
       )}
     </div>
