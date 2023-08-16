@@ -1,11 +1,11 @@
 $primary-color: #fb7043;
-$hover-lateral-menu: #E7EAEE;
-$secondary-color: #2EC5B6;
-$tertiary-color: #F7DDBC;
+$hover-lateral-menu: #e7eaee;
+$secondary-color: #2ec5b6;
+$tertiary-color: #f7ddbc;
 
 .main {
   text-align: justify;
-
+  min-height: calc(100vh - 6rem);
   .lateral_menu {
     p {
       font-weight: 500;
@@ -71,7 +71,6 @@ $tertiary-color: #F7DDBC;
           top: 3px;
         }
       }
-
     }
 
     button {
@@ -79,6 +78,10 @@ $tertiary-color: #F7DDBC;
         position: relative;
         top: 3px;
       }
+    }
+
+    .inputs_container {
+      min-height: 80%;
     }
   }
 }
@@ -118,7 +121,6 @@ $tertiary-color: #F7DDBC;
       }
 
       margin-bottom: 1.5rem;
-
     }
   }
 }
