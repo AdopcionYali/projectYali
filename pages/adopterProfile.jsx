@@ -1,9 +1,10 @@
+import 'dotenv/config'
+
 import React, { useEffect, useState } from 'react'
 import Navbar from '@/components/Navbar'
 import styles from '@/styles/AdopterProfile.module.scss'
 import { useForm } from 'react-hook-form'
 import WebcamImage from '@/components/WebCamImage'
-import { BASE_URl_API } from '@/libs/baseUrl'
 
 const adopterProfile = () => {
 
@@ -84,7 +85,7 @@ const requestSent = () => {
          
 
          try {
-           const response = await fetch(`${BASE_URl_API}users/${_id}`, {
+           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${_id}`, {
              method: 'PATCH',
              headers: {
                'Authorization': `Bearer ${token}`,
