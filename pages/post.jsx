@@ -1,11 +1,100 @@
 import Head from "next/head";
 import Navbar from "@/components/Navbar";
+import Footer from '@/components/Footer'
 import styles from "@/styles/DashRescatist.module.scss";
+import { useForm } from 'react-hook-form'
+import React, { useEffect, useState} from 'react'
 
-export default function Post() {
+const submitPost = () => {
+
+  const [petName, setPetName] = useState('')
+  const [petSpecies, setPetSpecies] = useState('')
+  const [petSex, setPetSex] = useState('')
+  const [petAge, setPetAge] = useState('')
+  const [actLevel, setActLevel] = useState('')
+  const [vacc, setVacc] = useState('')
+  const [background, setBackground] = useState('')
+  const [isNeutered, setIsNeutered] = useState('')
+  const [isFelvPositive, setIsFelvPositive] = useState('')
+  const [error, setError] = useState('')
+  const [validation, setValidation] = useState('')
+
+  const { register, handleSubmit } = useForm()
+
+  const addPhotoUrl = (e) => {
+    e.preventDefault()
+  }
+
+  const validate = async (e) =>{
+    e.preventDefault()
+    if (!petName) {
+      return setError(<p className='required'>Campo de Nombre vacio. Introduzca un nombre</p>) 
+    } else { setError('')}
+    if (petName.length < 3 || petName.length > 10 ) {
+      return setError(<p className='required'>Introduzca un nombre valido de 2 a 10 caracteres.</p>) 
+    } else { setError('')}
+    if (!petSpecies) {
+      return setError(<p className='required'>Elige la especie del adoptable</p>) 
+    } else { setError('')}
+    if (!petSex) {
+      return setError(<p className='required'>Elige el sexo del adoptable</p>) 
+    } else { setError('')}
+    if (!petAge) {
+      return setError(<p className='required'>Elige el rango de edad del adoptable</p>) 
+    } else { setError('')}
+    if (!actLevel) {
+      return setError(<p className='required'>Elige el nivel de actividad del adoptable</p>) 
+    } else { setError('')}
+    if (!vacc) {
+      return setError(<p className='required'>Elige el estado de vacunacion del adoptable</p>) 
+    } else { setError('')}
+    if (!background) {
+      return setError(<p className='required'>Escribe una descripcion del adoptable</p>) 
+    } else { setError('')}
+    if (background.length < 30 || background.length > 120 ) {
+      return setError(<p className='required'>Introduzca una descripcion de 30 a 120 caracteres</p>) 
+    } else { setError('')}
+    if (!isNeutered) {
+      return setError(<p className='required'>Elige el estado de esterilizacion del adoptable</p>) 
+    } else { setError('')}
+    if (!isFelvPositive) {
+      return setError(<p className='required'>Elige el estado de leucemia del adoptable</p>)
+    } else { setError('')}
+
+    const savePostObject = () =>{
+      let postArray = []
+      let postData = {
+        petName: petName,
+        petSex: petSex,
+        petAge: petAge,
+        actLevel: actLevel,
+        vacc: vacc,
+        background: background,
+        isNeutered: isNeutered,
+        isFelvPositive: isFelvPositive
+      }
+      postArray.push(postData)
+      return postArray
+    }
+    savePostObject()
+    const createPost = async (postArray) => {
+      
+        await fetch('http://localhost:8080/post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(postArray)
+        }).then(response=>response.json()).then(data=>{
+          console.log('hola', data)
+        })
+      }
+      createPost()
+    }
+
   return (
     <>
-      <Head>
+      <Head> 
         <title>Crear publicación</title>
         <meta name="description" content="Adopción de mascotas" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,6 +136,8 @@ export default function Post() {
                 type="text"
                 className={`form-control ${styles.smallInput}`}
                 placeholder="Nombre de la mascota"
+                value={petName}
+                onChange={(e)=> setPetName(e.target.value)}
               />
 
               <h4>Especie</h4>
@@ -56,9 +147,11 @@ export default function Post() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="options"
-                      id="option1"
-                    />
+                      name="species-input"
+                      id='perro'
+                      value='perro'
+                      onChange={(e)=> setPetSpecies(e.target.value)}
+                     />
                     <label className="form-check-label" htmlFor="option1">
                       Perro
                     </label>
@@ -67,8 +160,10 @@ export default function Post() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="options"
-                      id="option2"
+                      name="species-input"
+                      id="gato"
+                      value='gato'
+                      onChange={(e)=> setPetSpecies(e.target.value)}
                     />
                     <label className="form-check-label" htmlFor="option2">
                       Gato
@@ -84,8 +179,10 @@ export default function Post() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="options"
-                      id="option1"
+                      name="sex-input"
+                      id="macho"
+                      value='macho'
+                      onChange={(e)=> setPetSex(e.target.value)}
                     />
                     <label className="form-check-label" htmlFor="option1">
                       Macho
@@ -95,8 +192,10 @@ export default function Post() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="options"
-                      id="option2"
+                      name="sex-input"
+                      id="hembra"
+                      value='hembra'
+                      onChange={(e)=> setPetSex(e.target.value)}
                     />
                     <label className="form-check-label" htmlFor="option2">
                       Hembra
@@ -106,30 +205,34 @@ export default function Post() {
               </div>
 
               <h4>Rango de edad</h4>
-              <select className="form-control mt-3">
-                <option>Menos de 6 meses</option>
-                <option>De 6 a 12 meses</option>
-                <option>De 1 a 3 años</option>
-                <option>De 3 a 6 años</option>
-                <option>Más de 6 años</option>
+              <select className="form-control mt-3"
+              value={petAge}
+              onChange={(e)=> setPetAge(e.target.value)}>
+                <option value=''> Elige una opcion </option>
+                <option value='cachorro'>Cachorro</option>
+                <option value='joven'>Joven</option>
+                <option value='adulto'>Adulto</option>
+                <option value='adulto mayor'>Adulto mayor</option>
               </select>
 
               <h4>Nivel de actividad</h4>
-              <select className="form-control mt-3">
-                <option>Menos de 6 meses</option>
-                <option>De 6 a 12 meses</option>
-                <option>De 1 a 3 años</option>
-                <option>De 3 a 6 años</option>
-                <option>Más de 6 años</option>
+              <select className="form-control mt-3"
+              value={actLevel}
+              onChange={(e)=> setActLevel(e.target.value)}>
+                <option value=''> Elige una opcion </option>
+                <option value='baja'> Baja</option>
+                <option value='moderada'> Moderada</option>
+                <option value='alta'> Alta</option>
               </select>
 
               <h4>Vacunas</h4>
-              <select className="form-control mt-3">
-                <option>Menos de 6 meses</option>
-                <option>De 6 a 12 meses</option>
-                <option>De 1 a 3 años</option>
-                <option>De 3 a 6 años</option>
-                <option>Más de 6 años</option>
+              <select className="form-control mt-3"
+              value={vacc}
+              onChange={(e)=> setVacc(e.target.value)}>
+                <option value=''> Elige una opcion </option>
+                <option value='desparasitado'> Desparasitado/a</option>
+                <option value='desparasitado y vacunado'> Desparasitado/a y vacunado/a</option>
+                <option value='ninguna'> Ninguna</option>
               </select>
             </div>
 
@@ -138,6 +241,8 @@ export default function Post() {
               <textarea
                 className={`form-control ${styles.customTextarea}`}
                 placeholder="Escribe tu publicación"
+                value={background}
+                onChange={(e)=> setBackground(e.target.value)}
               ></textarea>
 
               <h4>¿La mascota esta esterilizada?</h4>
@@ -147,8 +252,10 @@ export default function Post() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="options"
-                      id="option1"
+                      name="neutered"
+                      id="neutered1"
+                      value="si"
+                      onChange={(e)=> setIsNeutered(e.target.value)}
                     />
                     <label className="form-check-label" htmlFor="option1">
                       Si
@@ -158,8 +265,10 @@ export default function Post() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="options"
-                      id="option2"
+                      name="neutered"
+                      id="neutered2"
+                      value="no"
+                      onChange={(e)=> setIsNeutered(e.target.value)}
                     />
                     <label className="form-check-label" htmlFor="option2">
                       No
@@ -175,8 +284,10 @@ export default function Post() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="options"
+                      name="felv"
                       id="option1"
+                      value='si'
+                      onChange={(e)=> setIsFelvPositive(e.target.value)}
                     />
                     <label className="form-check-label" htmlFor="option1">
                       Si
@@ -186,8 +297,10 @@ export default function Post() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="options"
+                      name="felv"
                       id="option2"
+                      value='no'
+                      onChange={(e)=> setIsFelvPositive(e.target.value)}
                     />
                     <label className="form-check-label" htmlFor="option2">
                       No
@@ -197,27 +310,42 @@ export default function Post() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="options"
-                      id="option3"
+                      name="felv"
+                      id="felv3"
+                      value="no aplica"
+                      onChange={(e)=> setIsFelvPositive(e.target.value)}
                     />
-                    <label className="form-check-label" htmlFor="option3">
-                      No aplica
+                    <label className="form-check-label" htmlFor="option2">
+                      No Aplica
                     </label>
                   </div>
                 </div>
                 <div className="mt-3">
                   <label>Cargar archivo:</label>
-                  <input type="file" className="form-control" />
+                  <input type="file" encType="multipart/form-data" className="form-control"
+                  
+                  />
+                  {error}
+                  <button 
+                  method="POST"
+                  name=''
+                  className={`btn btn-secondary ${styles.customButton} w-70`}
+                  onClick={validate}
+                  >Validar</button>
+                  <button 
+                  method="POST"
+                  className={`btn btn-primary ${styles.customButton} w-70`}
+                  onClick={addPhotoUrl}
+                  >Publicar</button>
                 </div>
               </div>
-            </div>
-
-            <div className="col-12 mt-3">
-              <button className={`btn btn-primary ${styles.customButton} w-100`}>Publicar</button>
             </div>
           </div>
         </section>
       </main>
+      <Footer/>
     </>
   );
 }
+
+export default submitPost

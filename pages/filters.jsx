@@ -26,7 +26,7 @@ const Filters = () => {
       //Solicitud a MongoDB
       const response = await axios.get("https://api-mongo", {
         params: {
-          petSpecies: selectedPet,
+          petSpecies: selectedSpecies,
           petSex: selectedSex,
           petAge: selectedAge,
           actLevel: selectedActLevel,
@@ -111,7 +111,7 @@ const Filters = () => {
               <input
                 type='radio'
                 value='gato'
-                checked={selectedPet === "gato"}
+                checked={selectedSpecies === "gato"}
                 onChange={() => handleFilterChange("petSpecies", "gato")}
               />
               Gato
@@ -140,7 +140,7 @@ const Filters = () => {
               <option value='cachorro'>Cachorro</option>
               <option value='joven'>Joven</option>
               <option value='adulto'>Adulto</option>
-              <option value='adulto-mayor'>Adulto Mayor</option>
+              <option value='adulto mayor'>Adulto Mayor</option>
             </select>
           </div>
           <div className={`${styles.filter_group}`}>
@@ -148,7 +148,7 @@ const Filters = () => {
             <select
               id='nivel-actividad'
               className='form-select'
-              value={selectedEnergyLevel}
+              value={selectedActLevel}
               onChange={(e) => setSelectedActLevel(e.target.value)}
             >
               <option value='alta'>Alta</option>
@@ -161,15 +161,12 @@ const Filters = () => {
             <select
               id='vacunacion'
               className='form-select'
-              value={selectedVaccinationStatus}
+              value={selectedVacc}
               onChange={(e) => setSelectedVacc(e.target.value)}
             >
-              <option value='carnet-completo'>
-                Todas las vacunas y desparasitado
-              </option>
-              <option value='desparasitado'>Únicamente desparasitado</option>
-              <option value='rabia'>Únicamente vacuna de rabia</option>
-              <option value='vacunas-anuales'>Vacunas anuales</option>
+              <option value='desparasitado'>Desparasitado/a</option>
+              <option value='desparasitado y vacunado'>Desparacitado/a y vacubnado/a</option>
+              <option value='ninguna'>Ninguna</option>
             </select>
           </div>
           <div className={`${styles.filter_group}`}>
@@ -184,7 +181,7 @@ const Filters = () => {
               <option value='false'>Sin esterilizar</option>
             </select>
           </div>
-          {isLeucemiaVisible && (
+          {isFelvPositiveVisible && (
             <div className={`${styles.filter_group}`}>
               <label htmlFor='felv'>¿Libre de leucemia felina?</label>
               <select
