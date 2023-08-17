@@ -11,6 +11,7 @@ const adopterProfile = () => {
   const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm()
   const [zipcode, setZipcode] = useState('')
   const [img, setImg] = useState(null);
+  const [showModal, setShowModal] = useState(false)
   
   const handleAdressDocPhotoChange = (event) => {
     const files = event.target.files;
@@ -69,36 +70,39 @@ const adopterProfile = () => {
 
   }, [zipcode])
 
-
+const requestSent = () => {
+  setShowModal(false)
+  window.open('/filters', '_self')
+}
 
   const customSubmit = (async (data) => {
-    
-        // const authorDataString = localStorage.getItem('token').split('.')[1];
-        // const { _id } = JSON.parse(atob(authorDataString));
-        // data['user'] = _id;
-        // const token = localStorage.getItem('token')
 
+         const authorDataString = localStorage.getItem('token').split('.')[1];
+         const { _id } = JSON.parse(atob(authorDataString));
+         data['user'] = _id;
+         const token = localStorage.getItem('token')
+         
 
-        // try {
-        //   const response = await fetch(`${BASE_URl_API}users/${_id}`, {
-        //     method: 'PATCH',
-        //     headers: {
-        //       'Authorization': `Bearer ${token}`,
-        //       'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(data)
-        //   })
-
+         try {
+           const response = await fetch(`${BASE_URl_API}users/${_id}`, {
+             method: 'PATCH',
+             headers: {
+               'Authorization': `Bearer ${token}`,
+               'Content-Type': 'application/json'
+             },
+             body: JSON.stringify(data)
+           })
+        
         console.log(data)
+        setShowModal(true)
 
 
+         } catch (error) {
+           alert('Something went wrong');
+           console.log(error)
 
-        // } catch (error) {
-        //   alert('Something went wrong');
-        //   console.log(error)
 
-
-        // }
+         }
 
   })
 
@@ -109,7 +113,22 @@ const adopterProfile = () => {
   return (
     <>
       <Navbar></Navbar>
-
+      {showModal && 
+      <div  className={`${styles.modal}`}  >
+      <div className={`${styles.modalContent}`}>
+        
+          <div className={`d-flex justify-content-between ${styles.modalTitle}`}>
+            <h5 className='p-2 ms-2  mt-1'><img src='request-sent-icon.svg' alt='sent-icon' className='me-2'></img>Solicitud Enviada</h5>
+          </div>
+          <div className='text-center mt-3 p-2'>
+            <p>Felicidades! estas a unos pasos de poder adoptar a tu animal de compañía. Espera atento a los siguientes pasos</p>
+          </div>
+          <div className='d-flex justify-content-center mb-3' >
+            <button type='button' onClick={requestSent} className={`btn ${styles.btnOrange}`}><img src='pet-paw-circle.svg' className='me-1' alt='pet-paw'></img>Aceptar</button>
+          </div>
+        
+      </div>
+    </div>}
       <div className='m-5 d-flex row justify-content-center'>
         <aside className={`col-lg-2 col-sm-12 me-4 ${styles.asideProfile} `}>
           <h5><img src='pencil.svg' alt='pencil'></img> Mi Perfil</h5>
