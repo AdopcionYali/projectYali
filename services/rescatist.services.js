@@ -1,6 +1,8 @@
+import 'dotenv/config'
+
 const saveProfile = async (profileData, id, token) => {
   try {
-    let response = await fetch(`${BASE_URl_API}/rescatist/saveprofile`, {
+    let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/rescatist/saveprofile`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -8,12 +10,12 @@ const saveProfile = async (profileData, id, token) => {
       },
       body: JSON.stringify( { id, profileData} )
     })
+
     let data = await response.json()
     if (!data.success) throw new Error('Error')
-    localStorage.setItem('token', data.token)
     return data
   } catch (error) {
-    return 
+    return error
   }
 }
 

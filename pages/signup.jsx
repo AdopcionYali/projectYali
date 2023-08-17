@@ -7,6 +7,7 @@ import styles from '@/styles/Signup.module.scss'
 
 import logo from '@/public/logo.svg'
 import dogFinger from '@/public/icon-dog-fingerprint.svg'
+import { useAuth } from '@/contexts/auth.context'
 
 const codeFormater = (code, limit) => code.replace(/[^\d]/g, '').slice(0, limit)
 
@@ -147,6 +148,7 @@ export default function Signup() {
 function Modal({ isVisible, setIsVisible, formData }) {
   const [code, setCode] = useState('')
   const [isValidCode, setIsValidCode] = useState(false)
+  const { updateToken } = useAuth()
   const { push } = useRouter()
   const searchParams = useSearchParams()
   const role = searchParams.get('role')
@@ -161,11 +163,13 @@ function Modal({ isVisible, setIsVisible, formData }) {
       if (response.success) {
         setIsValidCode(true)
         const { phoneNumber, password } = formData
-        await postSignUp({
+        const data = await postSignUp({
           phoneNumber: `+52${phoneNumber}`,
           password,
           role,
         })
+
+        updateToken(data.token)
 
         if (role === 'rescatist') { 
           push('/dashboard/rescatist') 
