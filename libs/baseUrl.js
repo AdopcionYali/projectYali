@@ -1,1 +1,0 @@
-export const BASE_URl_API = 'http://localhost:8080/'

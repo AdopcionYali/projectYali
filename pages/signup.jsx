@@ -7,6 +7,7 @@ import styles from '@/styles/Signup.module.scss'
 
 import logo from '@/public/logo.svg'
 import dogFinger from '@/public/icon-dog-fingerprint.svg'
+import { useAuth } from '@/contexts/auth.context'
 
 const codeFormater = (code, limit) => code.replace(/[^\d]/g, '').slice(0, limit)
 
@@ -133,7 +134,7 @@ export default function Signup() {
 
         <button
           type='submit'
-          className={`btn border bg-color-primary w-100 text-white ${styles.btn_nothover}`}
+          className={`rounded-2 py-2 border bg-color-primary w-100 text-white ${styles.btn_nothover}`}
           onClick={handleSubmit}
         >
           Continuar
@@ -147,6 +148,7 @@ export default function Signup() {
 function Modal({ isVisible, setIsVisible, formData }) {
   const [code, setCode] = useState('')
   const [isValidCode, setIsValidCode] = useState(false)
+  const { updateToken } = useAuth()
   const { push } = useRouter()
   const searchParams = useSearchParams()
   const role = searchParams.get('role')
@@ -161,12 +163,19 @@ function Modal({ isVisible, setIsVisible, formData }) {
       if (response.success) {
         setIsValidCode(true)
         const { phoneNumber, password } = formData
-        await postSignUp({
+        const data = await postSignUp({
           phoneNumber: `+52${phoneNumber}`,
           password,
           role,
         })
-        push('/dashboard')
+
+        updateToken(data.token)
+
+        if (role === 'rescatist') { 
+          push('/dashboard/rescatist') 
+        } else if (role === 'adopter') { 
+          push('/dashboard/adopter')
+        }
       }
     } catch (error) {
       setIsValidCode(false)
@@ -234,7 +243,7 @@ function Modal({ isVisible, setIsVisible, formData }) {
           <div className='modal-footer d-flex justify-content-center pt-0'>
             <button
               type='button'
-              className={`btn bg-color-primary text-white ${styles.btn_nothover}`}
+              className={`rounded-2 py-1 px-2 bg-color-primary text-white ${styles.btn_nothover}`}
               onClick={() => {
                 setIsVisible(false)
                 setIsValidCode(false)
