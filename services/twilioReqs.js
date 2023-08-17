@@ -47,7 +47,6 @@ const postSignUp = async (userData) => {
       body: JSON.stringify(userData)
     })
     const data = await response.json()
-    localStorage.setItem('token', data.token)
     
     return data
 

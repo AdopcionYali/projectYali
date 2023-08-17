@@ -5,11 +5,11 @@ import { useAuth } from '@/contexts/auth.context'
 import { saveProfile } from '@/services/rescatist.services'
 import Navbar from '@/components/Navbar'
 import styles from '@/styles/DashRescatist.module.scss'
+import loader from '@/styles/Loader.module.scss'
 import dogFingerprint from '@/public/icon-dog-fingerprint.svg'
 import dogs from '@/public/dogs-dashboard-rescatist.png'
 import iconUser from '@/public/icon-user.svg'
 import WebcamCapture from '@/components/WebCamCapture'
-import { useRouter } from 'next/router'
 
 const inputs = [
   {
@@ -63,11 +63,11 @@ const inputs = [
 
 export default function Rescatist() {
   const [previewImg, setPreviewImg] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const [file, setFile] = useState(null)
   const [zipcode, setZipcode] = useState('')
   const [useCam, setUseCam] = useState(false)
-  const router = useRouter()
-  const { user } = useAuth()
+  const { user, updateToken } = useAuth()
   const {
     register,
     handleSubmit,
@@ -92,9 +92,21 @@ export default function Rescatist() {
   }, [zipcode])
 
   const onSubmit = async () => {
+    setIsLoading(true)
     setValue('photoIdUrl', file)
-    await saveProfile(getValues(), user._id, localStorage.getItem('token'))
-    router.reload()
+    const data = await saveProfile(
+      getValues(),
+      user._id,
+      localStorage.getItem('token'),
+    )
+
+    if (data.token) {
+      setIsLoading(false)
+      updateToken(data.token)
+    } else {
+      setIsLoading(false)
+      alert('Ocurrió un error, intenta de nuevo por favor')
+    }
   }
 
   return (
@@ -213,8 +225,15 @@ export default function Rescatist() {
                 <div
                   className={`${styles.input_file_container} rounded-2 mb-2 d-flex align-items-center justify-content-center`}
                 >
-                  <label htmlFor='photoIdUrl'>Seleccionar archivo</label>
-                  <i className='bi bi-plus-circle ms-2' />
+                  <label
+                    htmlFor='photoIdUrl'
+                    className={`${
+                      user?.isVerificationSent && 'text-black-50'
+                    } fs-6 d-flex align-items-center`}
+                  >
+                    Seleccionar archivo
+                    <i className='bi bi-plus-circle ms-2' />
+                  </label>
                   <input
                     id='photoIdUrl'
                     type='file'
@@ -233,7 +252,7 @@ export default function Rescatist() {
                   />
                 </div>
                 <button
-                  className={`${styles.input_file_container} rounded-2 mb-2 d-flex align-items-center justify-content-center`}
+                  className={`${styles.input_file_container} rounded-2 mb-2 d-flex align-items-center justify-content-center w-700 fs-6`}
                   type='button'
                   onClick={() => setUseCam(true)}
                   disabled={user?.documents?.[0]?.profileInfo}
@@ -242,9 +261,9 @@ export default function Rescatist() {
                   <i className='bi bi-camera ms-2' />
                 </button>
                 <div className={`${styles.logo_user_container} p-2 rounded-4`}>
-                {!file && !user?.documents?.[0]?.profileInfo.photoIdUrl && (
-                  <small className='text-warning'>Imagen requerida</small>
-                )}
+                  {!file && !user?.documents?.[0]?.profileInfo.photoIdUrl && (
+                    <small className='text-warning'>Imagen requerida</small>
+                  )}
                   <img
                     src={
                       user?.documents?.[0]?.profileInfo.photoIdUrl ||
@@ -269,26 +288,37 @@ export default function Rescatist() {
                     de Yali
                   </label>
                   {errors?.privacy && (
-                    <small className='text-warning d-block'>Debes aceptar los términos y condiciones</small>
+                    <small className='text-warning d-block'>
+                      Debes aceptar los términos y condiciones
+                    </small>
                   )}
                 </div>
                 <div className='form-group'>
                   <button
                     type='submit'
-                    className='bg-color-primary text-white w-100 rounded-2 py-1 px-2 btn_validation fw-bold border-0'
+                    className='d-flex justify-content-center bg-color-primary text-white w-100 rounded-2 py-1 px-2 btn_validation fw-bold border-0'
                     style={user?.documents && { cursor: 'not-allowed' }}
                     disabled={user?.documents?.[0]?.profileInfo}
                   >
-                    {user?.documents
-                      ? 'Tu solicitud será revisada'
+                    {user?.isVerificationSent
+                      ? 'Solicitud en proceso'
                       : 'Solicitar verificación'}
-                    <Image
-                      src={dogFingerprint.src}
-                      width={30}
-                      alt='dog-finger'
-                      height={30}
-                      className='ms-2'
-                    />
+                    {!isLoading ? (
+                      <Image
+                        src={dogFingerprint.src}
+                        width={25}
+                        alt='dog-finger'
+                        height={25}
+                        className='ms-2'
+                      />
+                    ) : (
+                      <div className={`${loader.lds_ring} ms-2`}>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                    )}
                   </button>
                 </div>
               </article>

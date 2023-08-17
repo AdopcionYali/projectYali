@@ -29,6 +29,7 @@ export function AuthProvider({ children }) {
     setUser(null)
   }
   const updateToken = (token) => {
+    localStorage.setItem('token', token)
     setToken(token)
   }
 
