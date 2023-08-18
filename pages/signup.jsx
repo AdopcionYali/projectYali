@@ -174,7 +174,7 @@ function Modal({ isVisible, setIsVisible, formData }) {
         if (role === 'rescatist') { 
           push('/dashboard/rescatist') 
         } else if (role === 'adopter') { 
-          push('/dashboard/adopter')
+          push('/adopterProfile')
         }
       }
     } catch (error) {
