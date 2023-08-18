@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import styles from "@/styles/DashRescatist.module.scss";
 import { useForm } from 'react-hook-form'
 import React, { useState } from 'react'
+import 'dotenv/config'
 
 const submitPost = () => {
 
@@ -68,7 +69,7 @@ const submitPost = () => {
     const savePostObject = async (postData, files) => {
       let postDataJSON = JSON.stringify(postData)
       try {
-        let response = await fetch('http://localhost:8080/post', {
+        let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -80,7 +81,7 @@ const submitPost = () => {
       if (!data.success) throw new Error('Error')
 
       let id = data.postId
-      let response2 = await fetch(`http://localhost:8080/post/${id}/uploads`, {
+      let response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/${id}/uploads`, {
       method: 'POST',
       body: files
      })
