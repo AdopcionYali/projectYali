@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import styles from "@/styles/DashRescatist.module.scss";
 import { useForm } from 'react-hook-form'
 import React, { useState } from 'react'
+import savePostObject from "@/services/post.services";
 import 'dotenv/config'
 
 const submitPost = () => {
@@ -17,13 +18,19 @@ const submitPost = () => {
   const [background, setBackground] = useState('')
   const [isNeutered, setIsNeutered] = useState('')
   const [isFelvPositive, setIsFelvPositive] = useState('')
-  const [images, setImages] = useState({})
+  const [images, setImages] = useState([])
   const [error, setError] = useState('')
 
   const fileOnChange = (e) =>{
     return setImages(e.target.files)
-  }
+   }
+   
+   let formData = new FormData()
+    for (let i = 0 ; i < images.length ; i++) {
+      formData.append("pet-images", images[i]);
+   }
 
+  
   const { register, handleSubmit, getValues, setValue } = useForm()
 
   const onSubmit = async (e) => {
@@ -60,38 +67,6 @@ const submitPost = () => {
     if (!isFelvPositive) {
       return setError(<p className='required'>Elige el estado de leucemia del adoptable</p>)
     } else { setError('') }
-
-    let formData = new FormData()
-    formData.append('pet-images', images)
-    console.log(images)
-
-
-    const savePostObject = async (postData, files) => {
-      let postDataJSON = JSON.stringify(postData)
-      try {
-        let response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: postDataJSON
-      })
-      let data = await response.json()
-      console.log(data)
-      if (!data.success) throw new Error('Error')
-
-      let id = data.postId
-      let response2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/${id}/uploads`, {
-      method: 'POST',
-      body: files
-     })
-     let imgData = await response2.json()
-     console.log(files, imgData, 'console log de respuesta en segunda peticion')
-     return data, imgData
-    } catch (error) {
-      return error
-    }
-  }
 
   savePostObject(getValues(), formData)
 }
@@ -367,6 +342,7 @@ return (
               <div className="mt-3">
                 <label>Cargar archivo:</label>
                 <input type="file" className="form-control"
+                  name='pet-images'
                   onChange={fileOnChange}
                   multiple
                 />
