@@ -1,10 +1,15 @@
 import { useState } from 'react'
+import Link from 'next/link'
 import Slider from '@/components/Slider'
 import styles from '@/styles/Landing.module.scss'
 import { useAuth } from '@/contexts/auth.context'
+import { useRouter } from 'next/navigation'
+
 
 
 const Landing = () => {
+
+    const { push } = useRouter()
 
     const [rescuer, setRescuer] = useState(true)
     const { user } = useAuth()
@@ -30,7 +35,7 @@ const Landing = () => {
 
                         <h1 className={`m-5 header_title display-1 ${styles.header_title}`}> ¡Llena tu vida de <span style={{ color: '#FB7043' }}>alegría!</span></h1>
                         <p className={`m-5 header_p ${styles.header_p}`}> Mascotas adoptadas:</p>
-                        <button className={`header_btn ${styles.header_btn}`}> 000,000 </button>
+                        <button className={`header_btn ${styles.header_btn}`} > 000,000 </button>
 
                     </div>
 
@@ -41,9 +46,9 @@ const Landing = () => {
 
             <main className={`bg-white-1 main ${styles.main}`}>
                 <div className='d-flex justify-content-center m-5 row main-btns '>
-                    <button type='button' className={`btn_orange btn-lg m-3  ${styles.btn} col-sm-12 col-lg-3 ${styles.btn_orange}`}><img src='pet_paw.svg' alt='pet-paw' className='me-2' width={30}></img>¡Adopta una mascota!</button>
+                    <button type='button' onClick={()=>push('/filters')} className={`btn_orange btn-lg m-3  ${styles.btn} col-sm-12 col-lg-3 ${styles.btn_orange}`}><img src='pet_paw.svg' alt='pet-paw' className='me-2' width={30}></img>¡Adopta una mascota!</button>
 
-                    <button  className={`btn_outline btn-lg m-3  ${styles.btn} col-sm-12 col-lg-3 ${styles.btn_outline}`}><img src='pet_biscuit.svg' alt='pet-biscuit' className='me-2' width={30}></img><a href='/signup?role=rescatist'>¡Dar en adopción!</a></button>
+                    <button onClick={()=>push('/signup?role=rescatist')} className={`btn_outline btn-lg m-3  ${styles.btn} col-sm-12 col-lg-3 ${styles.btn_outline}`}><img src='pet_biscuit.svg' alt='pet-biscuit' className='me-2' width={30}></img>¡Dar en adopción!</button>
 
                 </div>
 
