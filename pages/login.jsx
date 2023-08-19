@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import 'dotenv/config'
 import axios from 'axios'
 import "../styles/Home.module.css"
-
 import Head from 'next/head'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
@@ -17,7 +17,7 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      const response = await axios.post('http://localhost:8080/login', {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
         phoneNumber: `+52${phoneNumber}`,
         password,
       })
@@ -29,7 +29,7 @@ const Login = () => {
       localStorage.setItem('token', token)
 
       if (role === 'rescatist') push('/dashboard/rescatist')
-      if (role === 'adopter') push('/dashboard/adopter')
+      if (role === 'adopter') push('/adopterProfile')
       if (role === 'admin') push('/dashboard/admin')
       
     } catch (error) {
@@ -87,9 +87,6 @@ const Login = () => {
           </div>
           <button type='submit' className='btn btn-primary w-100'>
             Iniciar Sesión
-          </button>
-          <button type='button' className='btn btn-secondary w-100 mt-3'>
-            Iniciar sesión con Google
           </button>
         </form>
       </section>

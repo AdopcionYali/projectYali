@@ -25,7 +25,7 @@ const Footer = () => {
        
         <ul className={`${styles.list} text-center  me-5 d-flex`}>
           <li><Link className={`${styles.a} a`} href='#'>Inicio</Link></li>
-          <li><Link className={`${styles.a} mx-4  a`} href='#'>Adopta</Link></li>
+          <li><Link className={`${styles.a} mx-4  a`} href='/filters' onClick={()=>push('/filters')}>Adopta</Link></li>
           <li><Link className={`${styles.a} a`} href='/signup?role=rescatist' onClick={()=>push('/signup?role=rescatist')}>Dar en adopción</Link></li>
         </ul>
         
