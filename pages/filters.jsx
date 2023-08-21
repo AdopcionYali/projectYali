@@ -10,33 +10,40 @@ import { useForm } from "react-hook-form";
 const Filters = () => {
 
   const [apiData, setApiData] = useState([])
+  const [petSpecies, setPetSpecies] = useState('')
+  const [filters, setFilters] = useState('')
+
+
   useEffect(() => {
-    const getPosts = async() => {
-      return fetch('http://localhost:8080/post'
-      ).then((response) => {
+    const getPosts = async(data) => {   
+
+      return fetch(`http://localhost:8080/post?petSex=${data[0]}&petAge=${data[1]}&actLevel=${data[2]}&vacc=${data[3]}&isNeutered=${data[4]}&petSpecies=${data[5]}`)
+      .then((response) => {
         return response.json()
       }).then((obj) =>{
         let posts = obj.data
         setApiData(posts)
       })
     }
-   getPosts()
-  }, [])
+   getPosts(filters)
+  }, [filters])
 
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, getValues, setValue } = useForm()
 
-  const onSubmit = async(e)=>{
-
-
+  const onSubmit = (e)=>{
+    const inputValues = getValues()
+    const valueArray = Object.values(inputValues)
+       return setFilters(valueArray)
   }
-console.log(apiData)
+  console.log(filters, apiData)
+
   return (
     <div>
       <Head>
         <title>Filtros de Adopción</title>
       </Head>
       <Navbar />
-      <div className='container'>
+      <div className='container-lg'>
         <aside className={`col-lg-3 ${styles.aside}`}>
           <form
           onSubmit={handleSubmit(onSubmit)}
@@ -45,34 +52,59 @@ console.log(apiData)
             <h3 className={`${styles.h3}`}>BUSCO:</h3>
             <div className={`form-check form-check-inline ${styles.radio_block}`}>
               <input
+                name='petSpecies'
                 type='radio'
                 value='perro'
+                onChange={(e)=> {
+                  setValue('petSpecies', e.target.value)
+                  setPetSpecies(e.target.value)
+                }}
+
               />
               Perro</div>
             <div className={`form-check form-check-inline ${styles.radio_block}`}>
               <input
+                name='petSpecies'
                 type='radio'
                 value='gato'
+                onChange={(e)=>{
+                  setValue('petSpecies', e.target.value)
+                  setPetSpecies(e.target.value)
+                }}
               />
               Gato
+            </div>
+            <div className={`form-check form-check-inline ${styles.radio_block}`}>
+              <input
+                name='petSpecies'
+                type='radio'
+                value=''
+                onChange={(e)=>{
+                  setValue('petSpecies', e.target.value)
+                  setPetSpecies(e.target.value)
+                }}
+              />
+              Todos
             </div>
           </div>
           <div className={`${styles.filter_group}`}>
             <label htmlFor='sexo'>Sexo</label>
-            <select
+            <select {...register('petSex')}
               id='sexo'
               className='form-select'
             >
+              <option value=''>Todos</option>
               <option value='hembra'>Hembra</option>
               <option value='macho'>Macho</option>
             </select>
           </div>
           <div className={`${styles.filter_group}`}>
             <label htmlFor='edad'>Edad</label>
-            <select
+            <select  {...register('petAge')}
               id='edad'
               className='form-select'
             >
+              <option value=''>Todos</option>
               <option value='cachorro'>Cachorro</option>
               <option value='joven'>Joven</option>
               <option value='adulto'>Adulto</option>
@@ -81,10 +113,11 @@ console.log(apiData)
           </div>
           <div className={`${styles.filter_group}`}>
             <label htmlFor='nivel-actividad'>Nivel de Actividad</label>
-            <select
+            <select  {...register('actLevel')}
               id='nivel-actividad'
               className='form-select'
             >
+              <option value=''>Todos</option>
               <option value='alta'>Alta</option>
               <option value='moderada'>Moderada</option>
               <option value='baja'>Baja</option>
@@ -92,10 +125,11 @@ console.log(apiData)
           </div>
           <div className={`${styles.filter_group}`}>
             <label htmlFor='vacunacion'>Vacunación</label>
-            <select
+            <select  {...register('vacc')}
               id='vacunacion'
               className='form-select'
             >
+              <option value=''>Todos</option>
               <option value='desparasitado'>Desparasitado/a</option>
               <option value='desparasitado y vacunado'>Desparacitado/a y vacubnado/a</option>
               <option value='ninguna'>Ninguna</option>
@@ -103,41 +137,35 @@ console.log(apiData)
           </div>
           <div className={`${styles.filter_group}`}>
             <label htmlFor='esterilizacion'>Esterilización</label>
-            <select
+            <select  {...register('isNeutered')}
               id='esterilizacion'
               className='form-select'
             >
-              <option value='true'>Esterilizado</option>
-              <option value='false'>Sin esterilizar</option>
+              <option value=''>Todos</option>
+              <option value='si'>Esterilizado</option>
+              <option value='no'>Sin esterilizar</option>
             </select>
           </div>
-          {(
-            <div className={`${styles.filter_group}`}>
-              <label htmlFor='felv'>¿Libre de leucemia felina?</label>
-              <select
-                id='felv'
-                className='form-select'
-              >
-                <option value='false'>Libre de leucemia/No se ha realizado prueba</option>
-                <option value='true'>Presenta leucemia</option>
-              </select>
-            </div>
-          )}
+
+        
           <div className={styles.filter_group}>
-            <button className={`btn_orange btn-lg ${styles.apply_btn}`}>
+            <button 
+              type='submit'
+              className={`btn_orange btn-lg ${styles.apply_btn}`}>
               BUSCAR
             </button>
           </div>
           </form>
         </aside>
 
-        <main className={`col-lg-9 ${styles.main}`}>
+        <div className={`col-lg-9 ${styles.main}`}>
           <div className='row'>
           {apiData.map((post) => (
               <div key={post._id} className='col-md-4 mb-4'>
                 <div className='card'>
                   <Image
-                    src={post.photoURL}
+                    fill='true'
+                    src={post.photoUrls[0]}
                     className='card-img-top'
                     alt={post.petName}
                   />
@@ -154,7 +182,7 @@ console.log(apiData)
             ))}
             
           </div>
-        </main>
+        </div>
       </div>
       <Footer />
     </div>
